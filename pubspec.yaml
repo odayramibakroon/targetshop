@@ -1,0 +1,67 @@
+name: clone_whatsapp_round34
+description: "A new Flutter project."
+publish_to: 'none'
+version: 1.0.0+1
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+dependencies:
+  cloud_firestore: ^6.1.0
+  country_picker: ^2.0.27
+  cupertino_icons: ^1.0.8
+  dartz: ^0.10.1
+  firebase_auth: ^6.1.2
+  firebase_core: ^4.2.1
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^9.1.1
+  flutter_localization: ^0.3.3
+  flutter_localizations:
+    sdk: flutter
+  flutter_screenutil: ^5.9.3
+  get_it: ^9.2.0
+  intl: any
+  phone_numbers_parser: ^9.0.17
+  shared_preferences: ^2.5.3
+
+dev_dependencies:
+  flutter_lints: ^5.0.0
+  flutter_native_splash: ^2.4.7
+  flutter_test:
+    sdk: flutter
+flutter:
+  generate: true
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/images/splash/
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/en/Roboto-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/en/Roboto-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/en/Roboto-Bold.ttf
+          weight: 700
+    - family: NotoSansArabic
+      fonts:
+        - asset: assets/fonts/ar/NotoSansArabic-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/ar/NotoSansArabic-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/ar/NotoSansArabic-Bold.ttf
+          weight: 700
+flutter_native_splash:
+  color: "#FFFFFF"
+  color_dark: "#111B21"
+  image: assets/images/splash/whatsapp_light.png
+  image_dark: assets/images/splash/whatsapp_dark.png
+  android_12:
+    color: "#FFFFFF"
+    color_dark: "#111B21"
+    image: assets/images/splash/whatsapp_light.png
+    image_dark: assets/images/splash/whatsapp_dark.png
+    icon_background_color: "#ffffff"
+    icon_background_color_dark: "#111B21"
+flutter_intl:
+  enabled: true

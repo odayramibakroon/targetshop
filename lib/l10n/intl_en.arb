@@ -1,0 +1,19 @@
+{
+    "welcome_title": "Welcome to Instant WhatsApp",
+    "welcome_btn": "Agree and Continue",
+
+    "login_title": "Enter your phone number",
+    "login_subtitle": "WhatsApp will need to verify your number",
+    "login_subtitle_link": "What's my number?",
+    "login_field_hint": "Phone number",
+    "login_charges_info": "Carrier charges may apply",
+
+    "btn_next": "Next",
+    "btn_loading": "Processing...",
+    "search_label": "Search",
+    "search_hint": "Start typing to search",
+
+    "error_auto_verify": "We couldn't automatically verify your phone number. Please enter it manually.",
+    "error_verify_failed": "Verification failed. Please try again.",
+    "error_unknown": "An unknown error occurred. Please try again."
+}
