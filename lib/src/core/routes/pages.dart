@@ -1,7 +1,7 @@
 import 'package:clone_whatsapp_round34/src/core/animation/animation.dart';
 import 'package:clone_whatsapp_round34/src/features/auth/presentation/pages/login_page.dart';
 import 'package:clone_whatsapp_round34/src/features/auth/presentation/pages/register.dart';
- import 'package:clone_whatsapp_round34/src/features/welcome/presentation/pages/welcome_page.dart';
+import 'package:clone_whatsapp_round34/src/features/welcome/presentation/pages/welcome_page.dart';
 import 'package:clone_whatsapp_round34/src/features/home/presentation/pages/home_page.dart';
 import 'package:clone_whatsapp_round34/src/features/home/presentation/pages/starred_messages_page.dart';
 import 'package:clone_whatsapp_round34/src/features/chat/presentation/pages/chat_page.dart';
@@ -15,6 +15,7 @@ import 'package:clone_whatsapp_round34/src/features/status/presentation/pages/st
 import 'package:clone_whatsapp_round34/src/features/calls/presentation/pages/calls_page.dart';
 import 'package:clone_whatsapp_round34/src/features/calls/presentation/pages/video_call_page.dart';
 import 'package:clone_whatsapp_round34/src/features/calls/presentation/pages/voice_call_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '/src/core/error/error.dart';
 import 'routes.dart';
@@ -22,11 +23,18 @@ import 'routes.dart';
 class AppRoute {
   static Route<dynamic> generate(RouteSettings? settings) {
     switch (settings?.name) {
-      case RoutesName.initial:
-        return CustomPageRoute(page: const LoginPage());
+ case RoutesName.initial:
+        final user = FirebaseAuth.instance.currentUser;
+
+        if (user != null) {
+          return CustomPageRoute(page: const HomePage());
+        } else {
+          return CustomPageRoute(page: const LoginPage());
+        }
+
       case RoutesName.login:
         return CustomPageRoute(page: const LoginPage());
-      
+
       case RoutesName.home:
         return CustomPageRoute(page: const HomePage());
       case RoutesName.register:

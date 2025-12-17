@@ -1,5 +1,8 @@
+ 
 class RoutesName {
   // ! Welcome
+  
+
   static const initial = '/';
   // ! Auth
   static const login = '/login';

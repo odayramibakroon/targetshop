@@ -1,15 +1,13 @@
  
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/config/config.dart';
+import '../../../../core/routes/names.dart';
 import '../../../../core/utils/AppValidators.dart';
 import '../../cubit/auth_cubit.dart';
-
- 
- 
-
- 
+import '../../domain/usecases/adduserusecase.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -34,9 +32,9 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<AuthCubit>(),
+      create: (context) =>   AuthCubit( getIt()),
       child: Scaffold(
-         body: SafeArea(
+        body: SafeArea(
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(20),
             child: BlocConsumer<AuthCubit, AuthState>(
@@ -45,6 +43,7 @@ class _RegisterState extends State<Register> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text("Welcome ${state.user.email}!")),
                   );
+                  Navigator.pushReplacementNamed(context, RoutesName.home);
                 }
 
                 if (state is SignUpFailureState) {
@@ -130,25 +129,33 @@ class _RegisterState extends State<Register> {
                           height: 55,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                               shape: RoundedRectangleBorder(
+                              shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
                             ),
-                            onPressed: () {
+                            onPressed: () async {
                               if (_formKey.currentState!.validate()) {
                                 try {
-                                  context.read<AuthCubit>().signUp(
+                                  // تسجيل المستخدم
+                                  await context.read<AuthCubit>().signUp(
                                         email: EmailController.text,
                                         password: passwordController.text,
                                       );
+                                  var adduserUseCase = getIt<AddUserUseCase>();
+                                  await adduserUseCase(
+                                      email: EmailController.text,
+                                      firstname: firstNameController.text,
+                                      lastname: lastNameController.text,
+                                      age: convertage(),
+                                      uid: FirebaseAuth
+                                          .instance.currentUser!.uid);
                                 } catch (e) {
-                                  print("0595912390 ${e.toString()} $e");
+                                  print("Error: $e");
                                 }
                               }
                             },
                             child: const Text(
                               "Create Account",
-                         
                             ),
                           ),
                         ),
