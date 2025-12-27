@@ -1,8 +1,8 @@
-
- import 'package:flutter/material.dart';
-
-import '../../../../core/utils/AppValidators.dart';
-
+  import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../cubit/auth_cubit.dart';
+  import '../../../../core/utils/AppValidators.dart';
+ 
 class FormLogin extends StatefulWidget {
   FormLogin({super.key});
 
@@ -12,13 +12,24 @@ class FormLogin extends StatefulWidget {
 
 class _LoginFormState extends State<FormLogin> {
   final _formKey = GlobalKey<FormState>();
-  void login({
-    required TextEditingController emailController,
-    required TextEditingController passwordController,
-  }) async {
+  void login() async {
     if (_formKey.currentState!.validate()) {
       try {
-    
+        if (_formKey.currentState!.validate()) {
+          try {
+            await context.read<AuthCubit>().login(
+                    email: _emailController.text.trim(),
+                     password: _passwordController.text.trim(),
+                );setState(() {
+               _emailController.clear();
+           _passwordController.clear();
+
+                });
+           
+          } catch (e) {
+            print("Error: $e");
+          }
+        }
       } catch (e) {
         print("catch $e");
       }
@@ -36,6 +47,7 @@ class _LoginFormState extends State<FormLogin> {
       child: Column(
         children: [
           TextFormField(
+ 
             controller: _emailController,
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
@@ -46,7 +58,7 @@ class _LoginFormState extends State<FormLogin> {
               ),
             ),
             validator: (value) {
-            return AppValidators.email(value);
+              return AppValidators.email(value);
             },
           ),
           const SizedBox(height: 16),
@@ -54,10 +66,7 @@ class _LoginFormState extends State<FormLogin> {
           // 🔒 حقل الباسورد
           TextFormField(
             controller: _passwordController,
-            onFieldSubmitted: (value) => login(
-              emailController: _emailController,
-              passwordController: _passwordController,
-            ),
+            onFieldSubmitted: (value) => login( ),
             obscureText: _obscurePassword,
             textInputAction: TextInputAction.done,
             decoration: InputDecoration(
@@ -86,22 +95,17 @@ class _LoginFormState extends State<FormLogin> {
           // 🔘 زر تسجيل الدخول
           ElevatedButton(
             onPressed: () {
-              login(
-                emailController: _emailController,
-                passwordController: _passwordController,
-              );
+              login();
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.green,
-              shape: RoundedRectangleBorder(
+               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
               padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 12),
             ),
             child: const Text(
               'Login',
-              style: TextStyle(fontSize: 18, color: Colors.white),
-            ),
+             ),
           ),
         ],
       ),

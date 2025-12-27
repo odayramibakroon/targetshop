@@ -17,3 +17,12 @@ final class SignUpFailureState extends AuthState {
   SignUpFailureState({required this.errMessage});
    
 }
+class LoginLoadingState extends AuthState {}
+class LoginSuccessState extends AuthState {
+  final AuthEntity user;
+  LoginSuccessState(this.user);
+}
+class LoginFailureState extends AuthState {
+  final String errMessage;
+  LoginFailureState({required this.errMessage});
+}

@@ -8,6 +8,7 @@ import '../../features/auth/data/implements/implements.dart';
 import '../../features/auth/data/sources/sources.dart';
 import '../../features/auth/domain/repositories/repositories.dart';
 import '../../features/auth/domain/usecases/adduserusecase.dart';
+import '../../features/auth/domain/usecases/login_use_case.dart';
 import '../../features/auth/domain/usecases/usecases.dart'; 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,16 +37,18 @@ class DependencyInjection {
 
     // Cubit
   // UseCases
-   //getIt.registerLazySingleton(() => LoginUseCase(getIt()));
-  getIt.registerLazySingleton(() => AddUserUseCase(getIt()));
+   getIt.registerLazySingleton(() => AddUserUseCase(getIt()));
 
   // Cubit
-  getIt.registerLazySingleton(() => AuthCubit(
-        getIt(),
-       // loginUseCase: getIt(),
-       // addUserUseCase: getIt(),
-        //firebaseAuth: getIt(),
-      ));    
+getIt.registerFactory(() => AuthCubit(
+  getIt<SignUpUseCase>(),
+  getIt<LoginUseCase>(),
+));   
+
+
+
+getIt.registerLazySingleton(() => LoginUseCase(getIt<AuthRepository>()));
+
        getIt.registerLazySingleton<LanguageCubit>(
       () => LanguageCubit(
         getIt<LanguageDataSource>(),

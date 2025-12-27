@@ -1,4 +1,3 @@
- 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,7 +14,7 @@ class Register extends StatefulWidget {
   @override
   State<Register> createState() => _RegisterState();
 }
-
+//bgbg@bgb.com
 class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
 
@@ -32,7 +31,7 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>   AuthCubit( getIt()),
+      create: (context) => getIt<AuthCubit>(),
       child: Scaffold(
         body: SafeArea(
           child: SingleChildScrollView(
@@ -43,7 +42,7 @@ class _RegisterState extends State<Register> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text("Welcome ${state.user.email}!")),
                   );
-                  Navigator.pushReplacementNamed(context, RoutesName.home);
+                  Navigator.pushNamedAndRemoveUntil(context, RoutesName.home, (route) => false,);
                 }
 
                 if (state is SignUpFailureState) {
@@ -52,6 +51,8 @@ class _RegisterState extends State<Register> {
                   );
                 }
               },
+              //cscs@frr.com 123456
+               
               builder: (context, state) {
                 return Form(
                     key: _formKey,
@@ -139,16 +140,11 @@ class _RegisterState extends State<Register> {
                                   // تسجيل المستخدم
                                   await context.read<AuthCubit>().signUp(
                                         email: EmailController.text,
+                                        firstname: firstNameController.text,
                                         password: passwordController.text,
+                                        lastname: lastNameController.text,
+                                        age: convertage(),
                                       );
-                                  var adduserUseCase = getIt<AddUserUseCase>();
-                                  await adduserUseCase(
-                                      email: EmailController.text,
-                                      firstname: firstNameController.text,
-                                      lastname: lastNameController.text,
-                                      age: convertage(),
-                                      uid: FirebaseAuth
-                                          .instance.currentUser!.uid);
                                 } catch (e) {
                                   print("Error: $e");
                                 }
@@ -202,3 +198,25 @@ class _RegisterState extends State<Register> {
     );
   }
 }
+
+
+
+
+
+
+
+
+
+/* 
+       onPressed: () async {
+                              if (_formKey.currentState!.validate()) {
+                                try {
+                                   await context.read<AuthCubit>().login(
+                                        email: EmailController.text,
+                                         password: passwordController.text,
+                                       );
+                                } catch (e) {
+                                  print("Error: $e");
+                                }
+                              }
+                            }, */

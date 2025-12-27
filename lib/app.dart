@@ -1,13 +1,15 @@
-import 'package:clone_whatsapp_round34/generated/l10n.dart';
-import 'package:clone_whatsapp_round34/src/core/localization/localization.dart';
-import 'package:clone_whatsapp_round34/src/core/theme/theme.dart';
+ 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'generated/l10n.dart';
 import 'src/core/config/config.dart';
 import 'package:flutter/material.dart';
+import 'src/core/localization/language_cubit.dart';
 import 'src/core/routes/routes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'src/core/theme/theme.dart';
+import 'src/cubits/cubit/user_cubit.dart';
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -18,10 +20,16 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, ch) => DismissKeyboard(
-        child: BlocProvider(
-          create: (context) => getIt<LanguageCubit>(),
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider<LanguageCubit>(
+              create: (context) => getIt<LanguageCubit>(),
+            ),
+            BlocProvider<UserCubit>(
+              create: (context) => getIt<UserCubit>()..loadUser(),  
+            ),
+          ],
           child: BlocBuilder<LanguageCubit, Locale>(
-            
             builder: (context, locale) => MaterialApp(
               title: 'WhatsApp Clone',
               localizationsDelegates: [

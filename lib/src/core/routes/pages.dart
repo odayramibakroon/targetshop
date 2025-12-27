@@ -12,11 +12,10 @@ import 'package:clone_whatsapp_round34/src/features/profile/presentation/pages/p
 import 'package:clone_whatsapp_round34/src/features/status/presentation/pages/status_page.dart';
 import 'package:clone_whatsapp_round34/src/features/status/presentation/pages/status_view_page.dart';
 import 'package:clone_whatsapp_round34/src/features/status/presentation/pages/status_create_page.dart';
-import 'package:clone_whatsapp_round34/src/features/calls/presentation/pages/calls_page.dart';
-import 'package:clone_whatsapp_round34/src/features/calls/presentation/pages/video_call_page.dart';
-import 'package:clone_whatsapp_round34/src/features/calls/presentation/pages/voice_call_page.dart';
+ 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '../../features/navbar.dart';
 import '/src/core/error/error.dart';
 import 'routes.dart';
 
@@ -34,6 +33,8 @@ class AppRoute {
 
       case RoutesName.login:
         return CustomPageRoute(page: const LoginPage());
+      case RoutesName.MainLayout:
+        return CustomPageRoute(page: const MainLayout());
 
       case RoutesName.home:
         return CustomPageRoute(page: const HomePage());
@@ -55,12 +56,7 @@ class AppRoute {
         return CustomPageRoute(page: const StatusViewPage());
       case RoutesName.statusCreate:
         return CustomPageRoute(page: const StatusCreatePage());
-      case RoutesName.calls:
-        return CustomPageRoute(page: const CallsPage());
-      case RoutesName.videoCalls:
-        return CustomPageRoute(page: const VideoCallPage());
-      case RoutesName.voiceCalls:
-        return CustomPageRoute(page: const VoiceCallPage());
+ 
       default:
         // If there is no such named route in the switch statement
         throw const RouteException('Route not found!');

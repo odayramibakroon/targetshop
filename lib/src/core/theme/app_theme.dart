@@ -24,6 +24,15 @@ class AppTheme {
         onPrimary: Colors.white, 
         onSurface: AppColors.textPrimaryLight, 
       ),
+      listTileTheme: ListTileThemeData(
+  tileColor: AppColors.surfaceLight,
+  iconColor: AppColors.textSecondaryLight,
+  textColor: AppColors.textPrimaryLight,
+  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(12),
+  ),
+),
 
       // 2. AppBar Theme
       appBarTheme: AppBarTheme(
@@ -149,6 +158,16 @@ elevatedButtonTheme: ElevatedButtonThemeData(
     textStyle: AppTextStyles.bodyMedium.copyWith(
       fontWeight: FontWeight.bold,
     ),
+  ),
+),
+
+listTileTheme: ListTileThemeData(
+  tileColor: AppColors.surfaceDark,
+  iconColor: AppColors.textSecondaryDark,
+  textColor: AppColors.textPrimaryDark,
+  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(12),
   ),
 ),
 

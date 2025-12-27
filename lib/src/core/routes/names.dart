@@ -7,6 +7,7 @@ class RoutesName {
   // ! Auth
   static const login = '/login';
   static const register = '/register';
+  static const MainLayout = '/MainLayout';
   static const fingerPrint = '/finger_print';
   // ! Home
   static const home = '/home';

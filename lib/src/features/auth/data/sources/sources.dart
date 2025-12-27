@@ -1,4 +1,4 @@
- import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../models/models.dart';
@@ -7,10 +7,17 @@ abstract class AuthRemoteDataSource {
   Future<UserModel> signUp({
     required String email,
     required String password,
+    required String firstname,
+    required String lastname,
+    required int age,
+   });
+  Future<UserModel> login({
+    required String email,
+    required String password,
   });
 
-    Future<void> addUser({
-   required String uid,
+  Future<void> addUser({
+    required String uid,
     required String firstname,
     required String lastname,
     required int age,
@@ -25,28 +32,62 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   AuthRemoteDataSourceImpl(this.firebaseAuth, this.firestore);
 
   @override
-  Future<UserModel> signUp({
-    required String email,
-    required String password,
-  }) async {
+  Future<UserModel> signUp(
+      {required String password,
+      required String firstname,
+      required String lastname,
+      required int age,
+      required String email}) async {
     final user = await firebaseAuth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
 
-    return UserModel.fromFirebase(user.user!);
-  }
-  
-  @override
-  Future<void> addUser({required String uid, required String firstname, required String lastname, required int age, required String email}) async{
-
-
-      await firestore.collection('users').doc(uid).set({
+    final uidu = user.user!;
+    final uid = uidu.uid;
+    await firestore.collection('users').doc(uid).set({
       'uid': uid,
       'firstname': firstname,
       'lastname': lastname,
       'age': age,
       'email': email,
       'createdAt': FieldValue.serverTimestamp(),
-    });  }
+    });
+    return UserModel.fromFirebase(user.user!);
+  }
+
+  @override
+  Future<UserModel> login({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final cred = await firebaseAuth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      final user = cred.user!;
+      return UserModel.fromFirebase(user);
+    } on FirebaseAuthException catch (e) {
+      throw Exception(e.message ?? e.code);
+    }
+  }
+
+  @override
+  Future<void> addUser(
+      {required String uid,
+      required String firstname,
+      required String lastname,
+      required int age,
+      required String email}) async {
+    await firestore.collection('users').doc(uid).set({
+      'uid': uid,
+      'firstname': firstname,
+      'lastname': lastname,
+      'age': age,
+      'email': email,
+      'createdAt': FieldValue.serverTimestamp(),
+    });
+  }
 }
