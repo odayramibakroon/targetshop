@@ -1,5 +1,5 @@
  
-    abstract class ChatRepository {
+    abstract class UserRepository {
         // Future<User> getUser(String userId);
       }
     

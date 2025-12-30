@@ -9,7 +9,7 @@ import 'src/core/routes/routes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'src/core/theme/theme.dart';
-import 'src/cubits/cubit/user_cubit.dart';
+ import 'src/features/users/cubit/user_cubit.dart';
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 

@@ -1,4 +1,5 @@
  
+ 
 class RoutesName {
   // ! Welcome
   
@@ -11,7 +12,7 @@ class RoutesName {
   static const fingerPrint = '/finger_print';
   // ! Home
   static const home = '/home';
-  static const starredMessages = '/starred_messages';
+  static const Products = '/Products';
   // ! Chat
   static const chat = '/chat';
   static const camera = '/camera';
@@ -21,7 +22,7 @@ class RoutesName {
   // ! Profile
   static const profile = '/profile';
   // ! Status
-  static const status = '/status';
+  static const favorites = '/favorites';
   static const statusView = '/status_view';
   static const statusCreate = '/status_create';
   // ! Calls

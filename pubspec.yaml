@@ -21,6 +21,7 @@ dependencies:
   flutter_screenutil: ^5.9.3
   get_it: ^9.2.0
   intl: any
+  like_button: ^2.1.0
   phone_numbers_parser: ^9.0.17
   shared_preferences: ^2.5.3
 

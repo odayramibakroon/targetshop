@@ -2,7 +2,7 @@
     import '../sources/sources.dart';
     import '../../domain/repositories/repositories.dart';
     
-    class ChatRepositoryImp implements ChatRepository{
+    class ChatRepositoryImp implements UserRepository{
 
         final ChatRemoteDataSource remoteDataSource;
         ChatRepositoryImp({required this.remoteDataSource});

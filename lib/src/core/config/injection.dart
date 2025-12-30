@@ -13,6 +13,13 @@ import '../../features/auth/domain/usecases/usecases.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../features/home/cubit/categories_cubit.dart';
+import '../../features/home/data/implements/implements.dart';
+import '../../features/home/data/sources/sources.dart';
+import '../../features/home/domain/repositories/repositories.dart';
+import '../../features/home/domain/usecases/getproducts.dart';
+import '../../features/home/domain/usecases/usecases.dart';
+import '../../features/users/cubit/user_cubit.dart';
 import '../localization/language_cubit.dart';
 import '../localization/language_data_source.dart';
 final getIt = GetIt.instance;
@@ -45,7 +52,9 @@ getIt.registerFactory(() => AuthCubit(
   getIt<LoginUseCase>(),
 ));   
 
-
+getIt.registerFactory(() => UserCubit(
+  
+));   
 
 getIt.registerLazySingleton(() => LoginUseCase(getIt<AuthRepository>()));
 
@@ -55,7 +64,28 @@ getIt.registerLazySingleton(() => LoginUseCase(getIt<AuthRepository>()));
         Locale('en'),  
       ),
     );
+
+    //==================== home
+    getIt.registerLazySingleton<HomeRemoteDataSource>(
+      () => HomeRemoteDataSourceImpl(firestore: getIt()),
+    );
+    // Repository
+    getIt.registerLazySingleton<HomeRepository>(
+      () => HomeRepositoryImp(remoteDataSource: getIt()),
+    );
+    // UseCase
+    getIt.registerLazySingleton(() => GetHomeUseCase(repository: getIt()));
+        //==================== home>products
+
+    getIt.registerLazySingleton(() => GetProductsByCategoryUseCase(  repository: getIt()));
   }
+    
+
+   //cubit
+  static void registerHomeCubit() {
+    getIt.registerFactory(() => CategoriesCubit(getIt()));
+  }
+
 
    
 }

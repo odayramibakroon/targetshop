@@ -2,7 +2,7 @@
     import '../repositories/repositories.dart';
 
     class GetChatUseCase {
-        final ChatRepository repository;
+        final UserRepository repository;
       
         GetChatUseCase({required this.repository});
       
