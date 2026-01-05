@@ -3,99 +3,47 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:targetshop/src/core/config/config.dart';
 import 'package:targetshop/src/cubits/productquantitycubit/productquantity_cubit.dart';
+import 'package:targetshop/src/features/home/cubit/products_cubit.dart';
+import 'package:targetshop/src/features/home/data/models/products_model.dart';
 
-import '../../../../core/config/config.dart';
-import '../../../home/cubit/products_cubit.dart';
-import '../../../home/data/models/products_model.dart';
-import '../../../home/presentation/widgets/FavoriteButtonAnimated.dart';
+import '../../../../core/routes/names.dart';
 
-class FavoritesPage extends StatelessWidget {
-  const FavoritesPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-Stream<List<ProductsModel>> getFavoriteProducts() {
+class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
+Stream<List<ProductsModel>> streamUserProducts() {
   final uid = FirebaseAuth.instance.currentUser!.uid;
-  final firestore = FirebaseFirestore.instance;
 
-  return firestore
+  return FirebaseFirestore.instance
       .collection('users')
       .doc(uid)
-      .collection('favorites')
+      .collection('products')
       .snapshots()
-      .switchMap((favSnapshot) {
-    if (favSnapshot.docs.isEmpty) return Stream.value([]);
-
-    final productStreams = favSnapshot.docs.map((doc) {
-      final categoryId = doc['categoryId'] as String;
-      final productId = doc['productId'] as String;
-
-       final productDocStream = firestore
-          .collection('categories')
-          .doc(categoryId)
-          .collection('products')
-          .doc(productId)
-          .snapshots();
-
-      final quantityStream = firestore
-          .collection('users')
-          .doc(uid)
-          .collection('products')
-          .doc(productId)
-          .snapshots()
-          .map((qDoc) => qDoc.exists ? (qDoc.data()?['quantity'] ?? 0).toDouble() : 0.0);
-
-      // دمج المنتج مع الكمية
-return Rx.combineLatest2(productDocStream, quantityStream,
-    (productDoc, quantityDynamic) {
-  if (!productDoc.exists) return null;
-
-  final data = productDoc.data()!;
-  final quantity = (quantityDynamic ?? 0).toDouble(); // تحويل dynamic إلى double
-
-  return ProductsModel(
-    id: productDoc.id,
-    name: data['name'] ?? '',
-    details: data['details'] ?? '',
-    price: (data['price'] ?? 0).toDouble(),
-    image: data['image'] ?? '',
-    quantity: quantity, // استخدمنا الكمية بعد التحويل
-    categoryId: categoryId,
-    like: true,
-  );
-});
-
-    }).toList();
-
-    return Rx.combineLatestList<ProductsModel?>(productStreams)
-        .map((products) => products.whereType<ProductsModel>().toList());
-  });
+      .map((snapshot) => snapshot.docs.map((doc) {
+            final data = doc.data();
+            return ProductsModel.fromFirestore(data, doc.id);
+          }).toList());
 }
-
-
-
-
-
-
-
-
-
-    return Scaffold(
-        appBar: AppBar(
-          title: Center(child: Text('Favorites')),
-          leading: IconButton(
-            icon: Icon(Icons.shopping_basket),
-            onPressed: () {
-              // Navigator.pushNamed(context, RoutesName.favorites);
-            },
-          ),
-        ),
-        body: BlocProvider(
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(      appBar: AppBar(
+        title: Text("HomePage"),
+        actions: [
+          IconButton(
+              onPressed: () {
+                FirebaseAuth.instance.signOut().then((_) {
+              
+                 }).catchError((error) {
+                 });
+              },
+              icon: Icon(Icons.logout))
+        ],
+      ),
+       body: BlocProvider(
             create: (context) => ProductsCubit(getProductsByCategory: getIt()),
             child: StreamBuilder<List<ProductsModel>>(
-                stream: getFavoriteProducts(),
+                stream: streamUserProducts(),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     return Center(child: Text("حدث خطأ: ${snapshot.error}"));
@@ -171,13 +119,7 @@ return Rx.combineLatest2(productDocStream, quantityStream,
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
-                                                FavoriteButtonAnimated(
-                                                  size: 25,
-                                                  isLiked: product.like,
-                                                  categoryId:
-                                                      product.categoryId,
-                                                  productId: product.id,
-                                                ),
+                                             
                                               ],
                                             ),
                                             const SizedBox(height: 4),
@@ -240,6 +182,7 @@ return Rx.combineLatest2(productDocStream, quantityStream,
                       );
                     },
                   );
-                })));
+                })),
+      );
   }
 }

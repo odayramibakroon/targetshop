@@ -1,5 +1,5 @@
-import 'package:clone_whatsapp_round34/src/core/theme/colors.dart';
-import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
+import 'package:targetshop/src/core/theme/colors.dart';
  
 class LogoGrocery extends StatelessWidget {
   const LogoGrocery({super.key});

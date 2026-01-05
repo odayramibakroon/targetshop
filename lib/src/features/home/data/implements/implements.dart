@@ -1,7 +1,6 @@
 
  
-import 'package:clone_whatsapp_round34/src/features/home/domain/entities/product_entity.dart';
-
+ 
 import '../../domain/entities/categories_entity.dart';
 import '../models/products_model.dart';
 import '../sources/sources.dart';

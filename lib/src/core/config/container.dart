@@ -1,7 +1,8 @@
-import 'package:clone_whatsapp_round34/src/core/localization/localization.dart';
-import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:targetshop/src/core/localization/language_cubit.dart';
+import 'package:targetshop/src/core/localization/language_data_source.dart';
 
 GetIt getIt = GetIt.instance;
 

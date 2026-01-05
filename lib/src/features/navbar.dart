@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'home/presentation/pages/home_page.dart';
-import 'profile/presentation/pages/profile_page.dart';
+import 'profile/presentation/pages/cart_page.dart';
 import 'settings/presentation/pages/setting_page.dart';
 import 'favorites/presentation/pages/favorites_page.dart';
 import 'welcome/presentation/pages/welcome_page.dart';

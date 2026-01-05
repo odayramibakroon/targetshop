@@ -16,7 +16,7 @@ class ProductsModel extends Product {
     return ProductsModel(
       id: id,
       name: data['name'] ?? '',
-            categoryId: data['categoryId'] ?? '5sBFtA7sGvH2psllYP8Z',
+            categoryId: data['categoryId'] ?? '',
        details: data['details'] ?? '',
       price: (data['price'] ?? 0).toDouble(),
       image: data['image'] ?? '',
@@ -24,19 +24,9 @@ class ProductsModel extends Product {
       like: data['like'] ?? false,
      );
   }
-
-    factory ProductsModel.fromFirestorecategoryId(Map<String, dynamic> data, String id  , {required String categoryId,}) {
  
-    return ProductsModel(
-      id: id,
-      name: data['name'] ?? '',
-      categoryId: data[categoryId]  ,
-      details: data['details'] ?? '',
-      price: (data['price'] ?? 0).toDouble(),
-      image: data['image'] ?? '',
-      quantity: (data['quantity'] ?? 0).toDouble(),
-      like: data['like'] ?? false,
-     );
-  }
+  copyWith({required bool like, required quantity}) {}
+
+ 
 
 }

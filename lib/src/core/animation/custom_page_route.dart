@@ -1,5 +1,5 @@
-import 'package:clone_whatsapp_round34/src/core/animation/animation.dart';
-import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
+import 'package:targetshop/src/core/animation/animation.dart';
 // Custom Page Route Transitions
 class CustomPageRoute<T> extends PageRouteBuilder<T> {
   final Widget page;

@@ -51,7 +51,7 @@ class _RegisterState extends State<Register> {
                   );
                 }
               },
-              //cscs@frr.com 123456
+               
                
               builder: (context, state) {
                 return Form(

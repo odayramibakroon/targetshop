@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
 
@@ -9,7 +10,7 @@ class FavoriteButtonAnimated extends StatelessWidget {
   final bool isLiked;
   final String categoryId;
   final String productId;
-
+   
   const FavoriteButtonAnimated({
     super.key,
     this.size = 30,
@@ -31,32 +32,20 @@ class FavoriteButtonAnimated extends StatelessWidget {
         dotPrimaryColor: Colors.red,
         dotSecondaryColor: Colors.pink,
       ),
- onTap: (currentLike) async {
+onTap: (currentLike) async {
   final newValue = !currentLike;
 
-  // تحديث اللايك في المنتج الأصلي
-  await ToggleLikeUseCase(repository: getIt()).call(
+  // نعيد القيمة فورًا للقلب لتحديث الواجهة
+  ToggleLikeUseCase(repository: getIt()).call(
     categoryId: categoryId,
     productId: productId,
     isLiked: newValue,
   );
 
-  final favRef = FirebaseFirestore.instance.collection('favorites');
-
-  if (newValue) {
-    // نخزّن المسار فقط
-    await favRef.doc(productId).set({
-      'categoryId': categoryId,
-      'productId': productId,
-      'createdAt': FieldValue.serverTimestamp(),
-    });
-  } else {
-    // حذف من المفضلة
-    await favRef.doc(productId).delete();
-  }
-
-  return newValue;
+  return newValue; // <- هذا يخلي القلب يتغير فورًا
 },
+
+
 
       likeBuilder: (isLiked) {
         return Icon(

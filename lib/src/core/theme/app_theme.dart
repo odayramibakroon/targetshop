@@ -1,6 +1,7 @@
-import 'package:clone_whatsapp_round34/src/core/theme/theme.dart';
-import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:targetshop/src/core/theme/app_color.dart';
+import 'package:targetshop/src/core/theme/app_text.dart';
 
 class AppTheme {
   

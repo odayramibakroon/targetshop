@@ -73,7 +73,7 @@ else {
       .collection('products')
             .doc(productId)
       .update({
-    'quantity': currentQuantity + 1,
+    'quantity': FieldValue.increment(1),
   });
 }
 

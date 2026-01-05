@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:targetshop/src/cubits/productquantitycubit/productquantity_cubit.dart';
 
 import '../../cubit/products_cubit.dart';
 import '../../data/models/products_model.dart';
@@ -15,43 +17,40 @@ class ListProducts extends StatelessWidget {
  
   @override
   Widget build(BuildContext context) {
-     Future<void> addProduct({
-  required String productId,
-  required double currentQuantity,
-}) async {
-    
-      await FirebaseFirestore.instance
-   .collection('categories')
-      .doc(categoryId)
-      .collection('products')    
-        .doc(productId)
-      .update({
-    'quantity': currentQuantity + 1,
-  });
-    
+  Stream<List<ProductsModel>> getProducts({required String categoryId}) {
+  final uid = FirebaseAuth.instance.currentUser!.uid;
+  final firestore = FirebaseFirestore.instance;
 
-
-}
-
-
-  Future<void> minProduct({
-  required String productId,
-  required double currentQuantity,
-}) async {
-  if (currentQuantity <= 0) {
-
-  } 
-else {
-  await FirebaseFirestore.instance
-   .collection('categories')
+  return firestore
+      .collection('categories')
       .doc(categoryId)
       .collection('products')
-            .doc(productId)
-      .update({
-    'quantity': currentQuantity - 1,
-  });
-}
+      .snapshots()
+      .asyncMap((productsSnapshot) async {
+    // جلب المفضلة للمستخدم
+    final favSnapshot = await firestore
+        .collection('users')
+        .doc(uid)
+        .collection('favorites')
+        .get();
 
+    final favoriteIds = favSnapshot.docs.map((doc) => doc['productId'] as String).toSet();
+
+    // إنشاء قائمة المنتجات مع تحديث حالة اللايك
+    return productsSnapshot.docs.map((doc) {
+      final data = doc.data();
+      return ProductsModel(
+        id: doc.id,
+        name: data['name'] ?? '',
+        details: data['details'] ?? '',
+        price: (data['price'] ?? 0).toDouble(),
+        image: data['image'] ?? '',
+        quantity: (data['quantity'] ?? 0).toDouble(),
+        categoryId: categoryId,
+        like: favoriteIds.contains(doc.id), // هنا تحدد حالة اللايك
+      );
+    }).toList();
+  });
 }
     return StreamBuilder<List<ProductsModel>>(
       stream: context.read<ProductsCubit>().getProductsByCategory(categoryId: categoryId), 
@@ -94,21 +93,7 @@ else {
                       ),
                     ],
                   ),
-                  /**ListTile(
-                    leading: CachedNetworkImage(
-                      imageUrl: product.image,
-                      width: 50,
-                      height: 50,
-                      placeholder: (context, url) =>
-                          const CircularProgressIndicator(strokeWidth: 2),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error, color: Colors.red),
-                      fit: BoxFit.cover,
-                    ),
-                    title: Text(product.name),
-                    subtitle: Text(product.details),
-                    trailing: Text("\$${product.price.toStringAsFixed(2)}"),
-                  ), */
+       
                   child: Padding(
       padding: const EdgeInsets.all(10),
       child: Column(
@@ -178,43 +163,33 @@ else {
                      fontWeight: FontWeight.bold,
                   ),
                 ),
-                Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                       context.read<ProductsCubit>().minProduct(
-                             productId: product.id,
-                             currentQuantity:product.quantity,
-                             categoryId: categoryId,
-                           );
-                        
-                      },
-                      child: const Icon(
-                        Icons.remove_circle_outline,
-                        size: 20,
-                      ),
-                    ),
-                          Text(
-                  "${product.quantity}",
-                  style: const TextStyle(
-                     fontWeight: FontWeight.bold,
-                  ),
-                ),
-                    GestureDetector(
-                      onTap: () {
-                         context.read<ProductsCubit>().addProduct(
-                             productId: product.id,
-                             currentQuantity:product.quantity,
-                             categoryId: categoryId,
-                           );
-                       },
-                      child: const Icon(
-                        Icons.add_circle_outline,
-                        size: 20,
-                      ),
-                    ),
-                  ],
-                ),
+         BlocProvider(
+  create: (_) => ProductQuantityCubit(
+    productId: product.id,
+    categoryId: categoryId,
+    initialQuantity: product.quantity, image: product.image, price: product.price, name: product.name,
+  ),
+  child: BlocBuilder<ProductQuantityCubit, double>(
+    builder: (context, quantity) {
+      return Row(
+        children: [
+          GestureDetector(
+            onTap: () => context.read<ProductQuantityCubit>().decrement(),
+            child: Icon(quantity == 0 ? Icons.delete : Icons.remove_circle_outline, size: 20),
+          ),
+          const SizedBox(width: 6),
+          Text("$quantity", style: const TextStyle(fontWeight: FontWeight.bold)),
+          const SizedBox(width: 6),
+          GestureDetector(
+            onTap: () => context.read<ProductQuantityCubit>().increment(),
+            child: const Icon(Icons.add_circle_outline, size: 20),
+          ),
+        ],
+      );
+    },
+  ),
+)
+
               ],
             ),
           ],

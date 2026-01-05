@@ -1,6 +1,6 @@
-import 'package:clone_whatsapp_round34/src/core/localization/language_data_source.dart';
-import 'package:flutter/widgets.dart';
+ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:targetshop/src/core/localization/language_data_source.dart';
 
 /// Simple Cubit that emits a [Locale].
 class LanguageCubit extends Cubit<Locale> {

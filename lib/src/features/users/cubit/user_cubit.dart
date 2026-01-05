@@ -10,32 +10,48 @@ part 'user_state.dart';
 
 class UserCubit extends Cubit<UserState> {
   UserCubit() : super(UserInitial());
+
   Future<void> loadUser() async {
-   emit(UserLoading());
+    emit(UserLoading());
 
     try {
-     final uid = FirebaseAuth.instance.currentUser!.uid;
-  FirebaseFirestore.instance
-      .collection('users')
-      .doc(uid)
-      .snapshots()
-      .listen((doc) {
-        final user = UserViewModel.fromMap(doc.data()!);
-        emit(UserLoaded(user));
+      // محاكاة تأخير لعرض السكيلتون
+      await Future.delayed(const Duration(seconds: 2));
+
+      final uid = FirebaseAuth.instance.currentUser!.uid;
+
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .snapshots()
+          .listen((doc) {
+        if (doc.exists) {
+          final data = doc.data()!;
+          final user = UserViewModel.fromMap(data);
+
+          // إضافة حالة verified
+          final isVerified = data['verifiedaccount'] ?? false;
+
+          emit(UserLoaded(user.copyWith(isVerified: isVerified)));
+        }
       });
     } catch (e) {
       emit(UserError(e.toString()));
     }
   }
 
-
   Stream<UserViewModel> getUserStream() {
-  final uid = FirebaseAuth.instance.currentUser!.uid;
-  return FirebaseFirestore.instance
-      .collection('users')
-      .doc(uid)
-      .snapshots()
-      .map((doc) => UserViewModel.fromMap(doc.data()!));
-}
+    final uid = FirebaseAuth.instance.currentUser!.uid;
 
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .snapshots()
+        .map((doc) {
+      final data = doc.data()!;
+      final user = UserViewModel.fromMap(data);
+      final isVerified = data['verifiedaccount'] ?? false;
+      return user.copyWith(isVerified: isVerified);
+    });
+  }
 }

@@ -1,5 +1,5 @@
-import 'package:clone_whatsapp_round34/src/core/constants/constants.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+ import 'package:shared_preferences/shared_preferences.dart';
+import 'package:targetshop/src/core/constants/constants.dart';
 
 class LanguageDataSource {
   final SharedPreferences _prefs;

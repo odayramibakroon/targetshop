@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:targetshop/src/features/home/presentation/widgets/shimmeruser.dart';
+ 
 import '../../../../core/config/container.dart';
 import '../../../users/cubit/user_cubit.dart';
-import '../../../users/data/models/user_model.dart';
-import '../../cubit/categories_cubit.dart';
+ import '../../cubit/categories_cubit.dart';
 import 'list_categores.dart';
 
 class HomePage extends StatelessWidget {
@@ -29,64 +29,49 @@ class HomePage extends StatelessWidget {
         ),
         body: CustomScrollView(
           slivers: [
-           StreamBuilder<UserViewModel>(
-            
-  stream: context.read<UserCubit>().getUserStream(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                        final user = snapshot.data!;
-                  return SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          CircleAvatar(
-                            radius: 30,
-                            backgroundImage: NetworkImage( user.image),
-                          ),
-                          const SizedBox(width: 12),
-                          Text(
-                             user.firstname + " " +  user.lastname,
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                }
-     
-                if (snapshot.hasError||!snapshot.hasData ||snapshot.data == null) {
-      return SliverToBoxAdapter(
-        child: Text('Error: ${snapshot.error}'),
-      );
-    }
+         SliverToBoxAdapter(
+  child: Padding(
+    padding: const EdgeInsets.all(16.0),
+    child: BlocBuilder<UserCubit, UserState>(
+      builder: (context, state) {
+        if (state is UserLoading) {
+           return const SkeletonListuser();
+        }
 
-                return SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Row(
-                      children: [
-                        const CircleAvatar(
-                          radius: 30,
-                          backgroundImage:
-                              AssetImage('assets/images/imgprofile.png'),
-                        ),
-                        const SizedBox(width: 12),
-                        Text(
-                          "Saja Bakroon",
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
+        if (state is UserLoaded) {
+          final user = state.user;
 
+           return Row(
+            children: [
+              CircleAvatar(
+                radius: 30,
+                backgroundImage: NetworkImage(user.image),
+              ),
+              const SizedBox(width: 12),
+              Text(
+                '${user.firstname} ${user.lastname}',
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+             if (user.isVerified) // تظهر فقط لو true
+        Image.asset(
+          'assets/images/verifiedaccount.png',
+          width: 24,
+          height: 24,
+        ), 
+            ],
+          );
+        }
+
+        // حالة خطأ أو فارغة
+        return const SizedBox.shrink();
+      },
+    ),
+  ),
+)
+,
             // حقل البحث
             SliverToBoxAdapter(
               child: Padding(

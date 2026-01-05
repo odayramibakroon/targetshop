@@ -1,8 +1,8 @@
  
  
-import 'package:clone_whatsapp_round34/src/features/home/presentation/pages/show_products.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:targetshop/src/features/home/presentation/pages/show_products.dart';
 import '../../features/auth/presentation/pages/login_page.dart';
 import '../../features/auth/presentation/pages/register.dart';
 import '../../features/favorites/presentation/pages/favorites_page.dart';

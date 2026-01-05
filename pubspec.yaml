@@ -1,4 +1,4 @@
-name: clone_whatsapp_round34
+name: targetshop
 description: "A new Flutter project."
 publish_to: 'none'
 version: 1.0.0+1
@@ -23,7 +23,9 @@ dependencies:
   intl: any
   like_button: ^2.1.0
   phone_numbers_parser: ^9.0.17
+  rxdart: ^0.28.0
   shared_preferences: ^2.5.3
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_lints: ^5.0.0
