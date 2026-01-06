@@ -56,11 +56,8 @@ class HomePage extends StatelessWidget {
                 ),
               ),
              if (user.isVerified) // تظهر فقط لو true
-        Image.asset(
-          'assets/images/verifiedaccount.png',
-          width: 24,
-          height: 24,
-        ), 
+              Icon(Icons.verified, size: 16, color: const Color.fromARGB(255, 74, 130, 255)), 
+  
             ],
           );
         }

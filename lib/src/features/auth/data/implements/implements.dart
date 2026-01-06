@@ -1,3 +1,5 @@
+import 'package:targetshop/src/features/auth/domain/entities/auth_register_entity.dart';
+
 import '../../domain/entities/entities.dart';
 import '../sources/sources.dart';
 import '../../domain/repositories/repositories.dart';
@@ -8,7 +10,7 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl(this.remoteDataSource);
 
   @override
-  Future<AuthEntity> signUp({
+  Future<AuthRegisterEntity> signUp({
     required String email,
     required String password,
     required String firstname,

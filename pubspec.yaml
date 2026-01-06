@@ -10,6 +10,7 @@ dependencies:
   country_picker: ^2.0.27
   cupertino_icons: ^1.0.8
   dartz: ^0.10.1
+  file_picker: ^10.3.8
   firebase_auth: ^6.1.2
   firebase_core: ^4.2.1
   flutter:

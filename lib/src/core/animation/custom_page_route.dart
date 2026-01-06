@@ -9,7 +9,9 @@ class CustomPageRoute<T> extends PageRouteBuilder<T> {
     required this.page,
     this.transitionType = PageTransitionType.fade,
   }) : super(
-          pageBuilder: (context, animation, secondaryAnimation) => page,
+          pageBuilder: (context, animation, secondaryAnimation) => 
+          
+          page,
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             switch (transitionType) {
               case PageTransitionType.fade:

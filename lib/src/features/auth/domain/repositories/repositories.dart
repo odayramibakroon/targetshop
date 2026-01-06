@@ -1,9 +1,11 @@
  
  
+import 'package:targetshop/src/features/auth/domain/entities/auth_register_entity.dart';
+
 import '../entities/entities.dart';
 
 abstract class AuthRepository {
-  Future<AuthEntity> signUp({
+  Future<AuthRegisterEntity> signUp({
     required String email,
     required String password,
      required String firstname,

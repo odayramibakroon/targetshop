@@ -1,17 +1,19 @@
+// data/repositories_impl/favorites_repository_impl.dart
+ import 'package:targetshop/src/features/favorites/data/models/favorite_product_model.dart';
+import 'package:targetshop/src/features/favorites/data/sources/sources.dart';
+ import 'package:targetshop/src/features/favorites/domain/repositories/repositories.dart';
 
-    import '../sources/sources.dart';
-    import '../../domain/repositories/repositories.dart';
-    
-    class StatusRepositoryImp implements StatusRepository{
+ 
+ 
+class FavoritesRepositoryImpl implements FavoritesRepository {
+        final FavoriteProductRemoteDataSource remoteDataSource;
+ 
 
-        final StatusRemoteDataSource remoteDataSource;
-        StatusRepositoryImp({required this.remoteDataSource});
-      
-        // ... example ...
-        //
-        // Future<User> getUser(String userId) async {
-        //     return remoteDataSource.getUser(userId);
-        //   }
-        // ...
-    }
-    
+  FavoritesRepositoryImpl(this.remoteDataSource );
+
+  @override
+  Stream<List<FavoriteProductModel>> getFavoriteProducts( )  {
+
+  return   remoteDataSource.getFavoriteProducts( );
+  }
+}

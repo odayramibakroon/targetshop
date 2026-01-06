@@ -3,39 +3,14 @@ import 'package:bloc/bloc.dart';
 
 import '../domain/entities/entities.dart';
 import '../domain/usecases/login_use_case.dart';
-import '../domain/usecases/usecases.dart';
-
+ 
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  final SignUpUseCase signUpUseCase;
-  final LoginUseCase loginUseCase;
+   final LoginUseCase loginUseCase;
 
-  AuthCubit(this.signUpUseCase, this.loginUseCase) : super(AuthInitial());
-
-  Future<void> signUp({
-    required String email,
-    required String password,
-    required String firstname,
-    required String lastname,
-    required int age,
-  }) async {
-    emit(SignUpLoadingState());
-    try {
-      AuthEntity user = await signUpUseCase(
-        email: email,
-        password: password,
-        firstname: firstname,
-        lastname: lastname,
-        age: age,
-      );
-
-      emit(SignUpSuccessState(user));
-    } catch (e) {
-      emit(SignUpFailureState(errMessage: e.toString()));
-    }
-  }
-
+  AuthCubit(  this.loginUseCase) : super(AuthInitial());
+ 
   Future<void> login({
     required String email,
     required String password,

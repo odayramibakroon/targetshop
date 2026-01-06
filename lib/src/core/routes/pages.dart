@@ -2,7 +2,10 @@
  
  import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:targetshop/src/core/config/config.dart';
 import 'package:targetshop/src/features/home/presentation/pages/show_products.dart';
+import 'package:targetshop/src/features/users/cubit/user_cubit.dart';
 import '../../features/auth/presentation/pages/login_page.dart';
 import '../../features/auth/presentation/pages/register.dart';
 import '../../features/favorites/presentation/pages/favorites_page.dart';
@@ -26,13 +29,33 @@ class AppRoute {
 
       case RoutesName.login:
         return CustomPageRoute(page: const LoginPage());
-      case RoutesName.MainLayout:
-        return CustomPageRoute(page: const MainLayout());
+     case RoutesName.MainLayout:
+  return CustomPageRoute(
+    page:  BlocProvider<UserCubit>(
+              create: (context) => getIt<UserCubit>()..loadUser(),  
+            
+      child: const MainLayout(),
+    ),
+  );
+
       case RoutesName.Products:
-              var categoryId = settings?.arguments as String;
+             
 
-        return CustomPageRoute(page: ShowProducts(categoryId: categoryId));
 
+
+                case RoutesName.Products:
+                 var categoryId = settings?.arguments as String;
+  return CustomPageRoute(
+    page:  BlocProvider<UserCubit>(
+              create: (context) => getIt<UserCubit>()..loadUser(),  
+            
+      child:   ShowProducts(categoryId: categoryId),
+    ),
+  );
+
+             
+ 
+ 
       case RoutesName.home:
         return CustomPageRoute(page: const HomePage());
       case RoutesName.register:

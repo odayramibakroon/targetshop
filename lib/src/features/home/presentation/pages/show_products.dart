@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:targetshop/src/features/home/presentation/widgets/shimmeruser.dart';
+import 'package:targetshop/src/features/users/cubit/user_cubit.dart';
 
 import '../../../../core/config/config.dart';
 import '../../cubit/products_cubit.dart';
@@ -37,24 +39,46 @@ class ShowProducts extends StatelessWidget {
       ),
       body: CustomScrollView(
         slivers: [
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                children: [
-                  const CircleAvatar(
-                    radius: 30,
-                    backgroundImage: AssetImage('assets/images/imgprofile.png'),
-                  ),
-                  const SizedBox(width: 12),
-                  Text(
-                    "Saja Bakroon",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                ],
+           SliverToBoxAdapter(
+  child: Padding(
+    padding: const EdgeInsets.all(16.0),
+    child: BlocBuilder<UserCubit, UserState>(
+      builder: (context, state) {
+        if (state is UserLoading) {
+           return const SkeletonListuser();
+        }
+
+        if (state is UserLoaded) {
+          final user = state.user;
+
+           return Row(
+            children: [
+              CircleAvatar(
+                radius: 30,
+                backgroundImage: NetworkImage(user.image),
               ),
-            ),
-          ),
+              const SizedBox(width: 12),
+              Text(
+                '${user.firstname} ${user.lastname}',
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+             if (user.isVerified) // تظهر فقط لو true
+                    Icon(Icons.verified, size: 16, color: const Color.fromARGB(255, 255, 74, 74)), 
+
+      // Icon(Icons.verified, size: 24, color: const Color.fromARGB(255, 74, 130, 255)), 
+            ],
+          );
+        }
+
+        // حالة خطأ أو فارغة
+        return const SizedBox.shrink();
+      },
+    ),
+  ),
+),
 
            SliverToBoxAdapter(
             child: Padding(
@@ -72,6 +96,9 @@ class ShowProducts extends StatelessWidget {
               ),
             ),
           ),
+ 
+
+ 
                           BlocProvider(
                       create: (context) => ProductsCubit(  getProductsByCategory: getIt()),
                     child:       ListProducts(categoryId: categoryId)

@@ -2,7 +2,7 @@
     import '../repositories/repositories.dart';
 
     class GetStatusUseCase {
-        final StatusRepository repository;
+        final FavoritesRepository repository;
       
         GetStatusUseCase({required this.repository});
       

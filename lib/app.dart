@@ -25,9 +25,7 @@ class MyApp extends StatelessWidget {
             BlocProvider<LanguageCubit>(
               create: (context) => getIt<LanguageCubit>(),
             ),
-            BlocProvider<UserCubit>(
-              create: (context) => getIt<UserCubit>()..loadUser(),  
-            ),
+           
           ],
           child: BlocBuilder<LanguageCubit, Locale>(
             builder: (context, locale) => MaterialApp(

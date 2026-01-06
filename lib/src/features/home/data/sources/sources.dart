@@ -2,8 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../domain/entities/categories_entity.dart';
-import '../../domain/entities/product_entity.dart';
-import '../models/categories_model.dart';
+ 
 import '../models/products_model.dart';
 
 abstract class HomeRemoteDataSource {
@@ -24,6 +23,9 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
 
   @override
   Future<List<Category>> getCategories() async {
+
+       
+
     final snapshot = await firestore.collection('categories').get();
     if (snapshot.docs.isEmpty) {
       return [];
@@ -36,6 +38,9 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
               image: doc['image'] ?? '',
             ))
         .toList();
+
+
+
   }
 
   @override

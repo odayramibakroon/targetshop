@@ -17,41 +17,7 @@ class ListProducts extends StatelessWidget {
  
   @override
   Widget build(BuildContext context) {
-  Stream<List<ProductsModel>> getProducts({required String categoryId}) {
-  final uid = FirebaseAuth.instance.currentUser!.uid;
-  final firestore = FirebaseFirestore.instance;
-
-  return firestore
-      .collection('categories')
-      .doc(categoryId)
-      .collection('products')
-      .snapshots()
-      .asyncMap((productsSnapshot) async {
-    // جلب المفضلة للمستخدم
-    final favSnapshot = await firestore
-        .collection('users')
-        .doc(uid)
-        .collection('favorites')
-        .get();
-
-    final favoriteIds = favSnapshot.docs.map((doc) => doc['productId'] as String).toSet();
-
-    // إنشاء قائمة المنتجات مع تحديث حالة اللايك
-    return productsSnapshot.docs.map((doc) {
-      final data = doc.data();
-      return ProductsModel(
-        id: doc.id,
-        name: data['name'] ?? '',
-        details: data['details'] ?? '',
-        price: (data['price'] ?? 0).toDouble(),
-        image: data['image'] ?? '',
-        quantity: (data['quantity'] ?? 0).toDouble(),
-        categoryId: categoryId,
-        like: favoriteIds.contains(doc.id), // هنا تحدد حالة اللايك
-      );
-    }).toList();
-  });
-}
+ 
     return StreamBuilder<List<ProductsModel>>(
       stream: context.read<ProductsCubit>().getProductsByCategory(categoryId: categoryId), 
       builder: (context, snapshot) {
@@ -167,7 +133,10 @@ class ListProducts extends StatelessWidget {
   create: (_) => ProductQuantityCubit(
     productId: product.id,
     categoryId: categoryId,
-    initialQuantity: product.quantity, image: product.image, price: product.price, name: product.name,
+    initialQuantity: product.quantity,
+     image: product.image, 
+     price: product.price,
+      name: product.name,
   ),
   child: BlocBuilder<ProductQuantityCubit, double>(
     builder: (context, quantity) {

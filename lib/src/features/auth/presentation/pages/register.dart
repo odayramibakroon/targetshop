@@ -1,21 +1,20 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:targetshop/src/features/auth/cubit/auth_register_cubit.dart';
+import 'package:targetshop/src/features/auth/cubit/auth_register_state.dart';
 
 import '../../../../core/config/config.dart';
 import '../../../../core/routes/names.dart';
 import '../../../../core/utils/AppValidators.dart';
 import '../../cubit/auth_cubit.dart';
-import '../../domain/usecases/adduserusecase.dart';
-
+ 
 class Register extends StatefulWidget {
   const Register({super.key});
 
   @override
   State<Register> createState() => _RegisterState();
 }
-//bgbg@bgb.com
-class _RegisterState extends State<Register> {
+ class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController EmailController = TextEditingController();
@@ -31,21 +30,21 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<AuthCubit>(),
+      create: (context) => getIt<AuthRegisterCubit>(),
       child: Scaffold(
         body: SafeArea(
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(20),
-            child: BlocConsumer<AuthCubit, AuthState>(
+            child: BlocConsumer<AuthRegisterCubit, AuthRegisterState>(
               listener: (context, state) {
-                if (state is SignUpSuccessState) {
+                if (state is AuthRegisterSuccessState) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text("Welcome ${state.user.email}!")),
                   );
-                  Navigator.pushNamedAndRemoveUntil(context, RoutesName.home, (route) => false,);
+                  Navigator.pushNamedAndRemoveUntil(context, RoutesName.MainLayout, (route) => false,);
                 }
 
-                if (state is SignUpFailureState) {
+                if (state is AuthRegisterFailureState) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text(state.errMessage)),
                   );
@@ -138,7 +137,7 @@ class _RegisterState extends State<Register> {
                               if (_formKey.currentState!.validate()) {
                                 try {
                                   // تسجيل المستخدم
-                                  await context.read<AuthCubit>().signUp(
+                                  await context.read<AuthRegisterCubit>().signUp(
                                         email: EmailController.text,
                                         firstname: firstNameController.text,
                                         password: passwordController.text,

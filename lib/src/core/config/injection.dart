@@ -2,6 +2,12 @@
  import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
+import 'package:targetshop/src/features/auth/cubit/auth_register_cubit.dart';
+import 'package:targetshop/src/features/favorites/cubit/favorite_products_cubit.dart';
+import 'package:targetshop/src/features/favorites/data/implements/implements.dart';
+import 'package:targetshop/src/features/favorites/data/sources/sources.dart';
+import 'package:targetshop/src/features/favorites/domain/repositories/repositories.dart';
+import 'package:targetshop/src/features/favorites/domain/usecases/favorite_products_usecase.dart';
 
 import '../../features/auth/cubit/auth_cubit.dart';
 import '../../features/auth/data/implements/implements.dart';
@@ -40,7 +46,7 @@ class DependencyInjection {
  getIt.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(getIt()));
  
     // UseCase
-    getIt.registerLazySingleton(() => SignUpUseCase(getIt()));
+    getIt.registerLazySingleton(() => RegisterUseCase(getIt()));
 
     // Cubit
   // UseCases
@@ -48,13 +54,33 @@ class DependencyInjection {
 
   // Cubit
 getIt.registerFactory(() => AuthCubit(
-  getIt<SignUpUseCase>(),
+  
   getIt<LoginUseCase>(),
 ));   
+
+getIt.registerFactory(() => AuthRegisterCubit(
+  
+  getIt<RegisterUseCase>(),
+));  
 
 getIt.registerFactory(() => UserCubit(
   
 ));   
+ 
+getIt.registerLazySingleton<FavoritesRepository>(
+  () => FavoritesRepositoryImpl(
+    getIt<FavoriteProductRemoteDataSource>(
+    ),
+  ),
+);
+getIt.registerLazySingleton(
+  () => GetFavoriteProductsUseCase(getIt<FavoritesRepository>()),
+);
+
+ 
+getIt.registerFactory(
+  () => FavoriteProductsCubit(getIt<GetFavoriteProductsUseCase>()),
+);
 
 getIt.registerLazySingleton(() => LoginUseCase(getIt<AuthRepository>()));
 
@@ -64,7 +90,12 @@ getIt.registerLazySingleton(() => LoginUseCase(getIt<AuthRepository>()));
         Locale('en'),  
       ),
     );
-
+getIt.registerLazySingleton<FavoriteProductRemoteDataSource>(
+  () => FavoriteProductRemoteDataSourceImpl(
+    firestore: getIt<FirebaseFirestore>(),
+   
+  ),
+);
     //==================== home
     getIt.registerLazySingleton<HomeRemoteDataSource>(
       () => HomeRemoteDataSourceImpl(firestore: getIt()),

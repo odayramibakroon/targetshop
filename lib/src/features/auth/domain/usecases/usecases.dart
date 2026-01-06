@@ -1,14 +1,16 @@
  
  
+import 'package:targetshop/src/features/auth/domain/entities/auth_register_entity.dart';
+
 import '../entities/entities.dart';
 import '../repositories/repositories.dart';
 
-  class SignUpUseCase {
+  class RegisterUseCase {
   final AuthRepository repository;
 
-  SignUpUseCase(this.repository);
+  RegisterUseCase(this.repository);
 
-  Future<AuthEntity> call({
+  Future<AuthRegisterEntity> call({
     required String email,
     required String password,
     required String firstname,

@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:targetshop/src/features/auth/data/models/register_model.dart';
 
 import '../models/models.dart';
 
 abstract class AuthRemoteDataSource {
-  Future<UserModel> signUp({
+  Future<RegisterModel> signUp({
     required String email,
     required String password,
     required String firstname,
@@ -32,7 +33,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   AuthRemoteDataSourceImpl(this.firebaseAuth, this.firestore);
 
   @override
-  Future<UserModel> signUp(
+  Future<RegisterModel> signUp(
       {required String password,
       required String firstname,
       required String lastname,
@@ -53,7 +54,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       'email': email,
       'createdAt': FieldValue.serverTimestamp(),
     });
-    return UserModel.fromFirebase(user.user!);
+    return RegisterModel.fromFirebase(user.user!);
   }
 
   @override
