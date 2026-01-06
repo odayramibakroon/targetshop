@@ -21,7 +21,7 @@ class _MainLayoutState extends State<MainLayout> {
       PostsPage(),
     FavoritesPage(),
     ProfilePage(),
-    SettingPage(),
+    SettingsPage(),
   ];
 
   @override

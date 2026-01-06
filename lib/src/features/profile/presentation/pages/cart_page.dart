@@ -33,7 +33,8 @@ Stream<List<ProductsModel>> streamUserProducts() {
           IconButton(
               onPressed: () {
                 FirebaseAuth.instance.signOut().then((_) {
-              
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, RoutesName.login, (route) => false);
                  }).catchError((error) {
                  });
               },
