@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
  
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:targetshop/generated/l10n.dart';
  import 'package:targetshop/src/cubits/productquantitycubit/productquantity_cubit.dart';
 import 'package:targetshop/src/features/favorites/cubit/favorite_products_cubit.dart';
 import 'package:targetshop/src/features/favorites/data/models/favorite_product_model.dart';
@@ -27,7 +28,7 @@ class FavoritesPage extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
-          title: Center(child: Text('Favorites')),
+          title: Center(child: Text( S.of(context).favorites)),
           leading: IconButton(
             icon: Icon(Icons.shopping_basket),
             onPressed: () {

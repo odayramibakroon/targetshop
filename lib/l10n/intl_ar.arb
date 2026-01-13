@@ -1,20 +1,21 @@
 {
-    "welcome_title": "مرحبًا بك في Instant WhatsApp",
-    "welcome_btn": "الموافقة والمتابعة",
+      "@@locale": "ar",
+    "posts": "المنشورات",
+    "favorites": "المفضلة",
 
-    "login_title": "أدخل رقم هاتفك",
-    "login_subtitle": "يرجى إدخال رقم هاتفك لتسجيل الدخول إلى WhatsApp",
-    "login_subtitle_link": "ما هو رقم هاتفي؟",
-    "login_field_hint": "رقم الهاتف",
-    "login_charges_info": "قد يتم تطبيق رسوم من قبل شركة الاتصالات",
+    "cart": "السلة",
+    "theme": "المظهر",
+    "theme_hint": "النظام الإفتراضي / داكن / فاتح",
+    "language": "اللغة",
+    "language_hint": "العربية/English",
 
-    "btn_next": "التالي",
-    "btn_loading": "جارٍ المعالجة...",
-    "search_label": "بحث",
-    "search_hint": "ابدأ الكتابة للبحث",
+    "change_password": "تغيير كلمة المرور",
+    "change_password_hint": "إرسال رابط إعادة تعيين",
+    "exit": "تسجيل الخروج",
+    "exit_hint": "تسجيل الخروج من الحساب",
    
 
-    "error_auto_verify": "لم نتمكن من التحقق تلقائيًا من رقم هاتفك. يرجى إدخاله يدويًا.",
+    "error_auto_verify": "المظهر",
     "error_verify_failed": "فشل التحقق. يرجى المحاولة مرة أخرى.",
     "error_unknown": "حدث خطأ غير معروف. يرجى المحاولة مرة أخرى."
 }

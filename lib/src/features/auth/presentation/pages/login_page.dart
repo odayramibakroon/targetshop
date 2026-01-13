@@ -63,28 +63,8 @@ class _LoginPageState extends State<LoginPage> {
                             alignment: Alignment.centerRight,
                             child: TextButton(
                               onPressed: () {
-                                void login() async {
-                                  try {
-                                    try {
-                                      String _emailController = "bak@gmail.com";
-                                      String _passwordController = "123456";
-                                      await context.read<AuthCubit>().login(
-                                            email: _emailController,
-                                            password: _passwordController,
-                                          );
-                                      setState(() {
-                                        _emailController = "";
-                                        _passwordController = "";
-                                      });
-                                    } catch (e) {
-                                      print("Error: $e");
-                                    }
-                                  } catch (e) {
-                                    print("catch $e");
-                                  }
-                                }
-
-                                login();
+                                Navigator.pushNamed(
+                                    context, RoutesName.forgetpassword);
                               },
                               child: const Text(
                                 "Forget Password?",
@@ -97,7 +77,26 @@ class _LoginPageState extends State<LoginPage> {
                             children: [
                               Expanded(
                                 child: OutlinedButton.icon(
-                                  onPressed: () {},
+                                  onPressed: () {            void login() async {
+                                  try {
+                                    
+                                      String _emailController = "bak@gmail.com";
+                                      String _passwordController = "123456";
+                                      await context.read<AuthCubit>().login(
+                                            email: _emailController,
+                                            password: _passwordController,
+                                          );
+                                      setState(() {
+                                        _emailController = "";
+                                        _passwordController = "";
+                                      });
+                                     
+                                  } catch (e) {
+                                    print("catch $e");
+                                  }
+                                }
+
+                                login();},
                                   icon: const Icon(
                                     Icons.g_mobiledata,
                                     color: Colors.red,

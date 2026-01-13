@@ -4,13 +4,14 @@ class AppValidators {
     if (value == null || value.isEmpty) {
       return 'Please enter your email';
     }
-/*
+ 
     final regex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}$');
     if (!regex.hasMatch(value)) {
       return 'Enter a valid email';
+    }else
+    {
+      return null;
     }
-*/
-    return null; // Valid
   }
 
   /// Validate Password

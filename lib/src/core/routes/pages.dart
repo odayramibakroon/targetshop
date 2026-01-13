@@ -4,6 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:targetshop/src/core/config/config.dart';
+import 'package:targetshop/src/features/auth/presentation/pages/forget_password.dart';
 import 'package:targetshop/src/features/home/presentation/pages/show_products.dart';
 import 'package:targetshop/src/features/users/cubit/user_cubit.dart';
 import '../../features/auth/presentation/pages/login_page.dart';
@@ -22,13 +23,16 @@ class AppRoute {
         final user = FirebaseAuth.instance.currentUser;
 
         if (user != null) {
-          return CustomPageRoute(page: const HomePage());
+          return CustomPageRoute(page: const MainLayout());
         } else {
           return CustomPageRoute(page: const LoginPage());
         }
 
       case RoutesName.login:
         return CustomPageRoute(page: const LoginPage());
+
+      case RoutesName.forgetpassword:
+        return CustomPageRoute(page: const ForgetPassword());
      case RoutesName.MainLayout:
   return CustomPageRoute(
     page:  BlocProvider<UserCubit>(
@@ -45,16 +49,15 @@ class AppRoute {
 
                 case RoutesName.Products:
                  var categoryId = settings?.arguments as String;
-  return CustomPageRoute(
+   return CustomPageRoute(
     page:  BlocProvider<UserCubit>(
               create: (context) => getIt<UserCubit>()..loadUser(),  
             
-      child:   ShowProducts(categoryId: categoryId),
+      child: ShowProducts(categoryId: categoryId),
     ),
   );
-
              
- 
+ //
  
       case RoutesName.home:
         return CustomPageRoute(page: const HomePage());

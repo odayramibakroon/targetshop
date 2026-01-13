@@ -5,8 +5,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:targetshop/src/features/favorites/data/models/favorite_product_model.dart';
 
 abstract class  FavoriteProductRemoteDataSource {
-        // Make API call to fetch data and return object.
-        // ...
+       
          Stream<List<FavoriteProductModel>> getFavoriteProducts(  );
     }
 

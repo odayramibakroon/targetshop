@@ -52,6 +52,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       'lastname': lastname,
       'age': age,
       'email': email,
+      'verifiedaccount': true,
       'createdAt': FieldValue.serverTimestamp(),
     });
     return RegisterModel.fromFirebase(user.user!);

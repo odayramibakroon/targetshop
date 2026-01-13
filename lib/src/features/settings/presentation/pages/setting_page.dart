@@ -1,10 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:targetshop/generated/l10n.dart';
+import 'package:targetshop/src/core/localization/language_cubit.dart';
 import 'package:targetshop/src/core/routes/names.dart';
+import 'package:targetshop/src/core/utils/theme_controller.dart';
 import 'package:targetshop/src/core/utils/user_image_service.dart';
 import 'package:targetshop/src/features/users/cubit/user_cubit.dart';
- 
+import 'package:targetshop/src/features/posts/presentation/pages/testvideo.dart';
+
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
 
@@ -23,7 +27,8 @@ class _SettingsPageState extends State<SettingsPage> {
 
     setState(() => _uploading = true);
     try {
-      final url = await UserImageService.pickUploadAndSave(imgbbApiKey: imgbbApiKey);
+      final url =
+          await UserImageService.pickUploadAndSave(imgbbApiKey: imgbbApiKey);
       if (!mounted) return;
 
       if (url != null) {
@@ -45,13 +50,14 @@ class _SettingsPageState extends State<SettingsPage> {
       if (mounted) setState(() => _uploading = false);
     }
   }
-     void logout(){
-     FirebaseAuth.instance.signOut().then((_) {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, RoutesName.login, (route) => false);
-                 }).catchError((error) {
-                 });
-     }
+
+  void logout() {
+    FirebaseAuth.instance.signOut().then((_) {
+      Navigator.pushNamedAndRemoveUntil(
+          context, RoutesName.login, (route) => false);
+    }).catchError((error) {});
+  }
+
   Future<void> _sendResetPasswordEmail(BuildContext context) async {
     final auth = FirebaseAuth.instance;
     final email = auth.currentUser?.email;
@@ -67,7 +73,8 @@ class _SettingsPageState extends State<SettingsPage> {
       await auth.sendPasswordResetEmail(email: email);
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('📩 تم إرسال رابط إعادة تعيين كلمة المرور')),
+        const SnackBar(
+            content: Text('📩 تم إرسال رابط إعادة تعيين كلمة المرور')),
       );
     } catch (e) {
       if (!mounted) return;
@@ -78,28 +85,38 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   void _showThemeSheet(BuildContext context) {
+    final controller = context.read<ThemeController>();
+
     showModalBottomSheet(
       context: context,
       builder: (_) {
+        textDirection:
+        TextDirection.rtl;
+
         return SafeArea(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               const ListTile(title: Text('المظهر')),
               ListTile(
+                leading: const Icon(Icons.settings_system_daydream_rounded),
+                title: const Text('النظام الافتراضي'),
+                onTap: () {
+                  controller.setTheme(ThemeMode.system);
+                },
+              ),
+              ListTile(
                 leading: const Icon(Icons.light_mode),
                 title: const Text('فاتح'),
                 onTap: () {
-                  Navigator.pop(context);
-                  // TODO: اربطها بـ ThemeCubit/SharedPreferences
+                  controller.setTheme(ThemeMode.light);
                 },
               ),
               ListTile(
                 leading: const Icon(Icons.dark_mode),
                 title: const Text('داكن'),
                 onTap: () {
-                  Navigator.pop(context);
-                  // TODO: اربطها بـ ThemeCubit/SharedPreferences
+                  controller.setTheme(ThemeMode.dark);
                 },
               ),
             ],
@@ -122,16 +139,14 @@ class _SettingsPageState extends State<SettingsPage> {
                 leading: const Icon(Icons.language),
                 title: const Text('العربية'),
                 onTap: () {
-                  Navigator.pop(context);
-                  // TODO: اربطها بـ LocaleCubit / easy_localization
+                  context.read<LanguageCubit>().setLanguage('ar');
                 },
               ),
               ListTile(
                 leading: const Icon(Icons.language),
                 title: const Text('English'),
                 onTap: () {
-                  Navigator.pop(context);
-                  // TODO: اربطها بـ LocaleCubit / easy_localization
+                  context.read<LanguageCubit>().setLanguage('en');
                 },
               ),
             ],
@@ -148,7 +163,9 @@ class _SettingsPageState extends State<SettingsPage> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        appBar: AppBar(title: const Text('الإعدادات')),
+        appBar: AppBar(
+          title: Center(child: Text(S.of(context).settings)),
+        ),
         body: BlocBuilder<UserCubit, UserState>(
           builder: (context, state) {
             if (state is UserLoading) {
@@ -163,7 +180,8 @@ class _SettingsPageState extends State<SettingsPage> {
 
             final imageUrl = user.image.trim();
             final hasImage = imageUrl.isNotEmpty &&
-                (imageUrl.startsWith('http://') || imageUrl.startsWith('https://'));
+                (imageUrl.startsWith('http://') ||
+                    imageUrl.startsWith('https://'));
 
             return ListView(
               padding: const EdgeInsets.all(16),
@@ -172,7 +190,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 Container(
                   padding: const EdgeInsets.all(14),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.surfaceVariant,
                     borderRadius: BorderRadius.circular(14),
                     boxShadow: const [
                       BoxShadow(
@@ -189,16 +207,20 @@ class _SettingsPageState extends State<SettingsPage> {
                           CircleAvatar(
                             radius: 36,
                             backgroundColor: Colors.grey.shade200,
-                            backgroundImage: hasImage ? NetworkImage(imageUrl) : null,
+                            backgroundImage:
+                                hasImage ? NetworkImage(imageUrl) : null,
                             child: hasImage
                                 ? null
-                                : const Icon(Icons.person, size: 32, color: Colors.black54),
+                                : const Icon(Icons.person,
+                                    size: 32, color: Colors.black54),
                           ),
                           Positioned(
                             bottom: 0,
                             left: 0,
                             child: InkWell(
-                              onTap: _uploading ? null : () => _changePhoto(context),
+                              onTap: _uploading
+                                  ? null
+                                  : () => _changePhoto(context),
                               borderRadius: BorderRadius.circular(999),
                               child: Container(
                                 padding: const EdgeInsets.all(7),
@@ -215,7 +237,8 @@ class _SettingsPageState extends State<SettingsPage> {
                                           color: Colors.white,
                                         ),
                                       )
-                                    : const Icon(Icons.camera_alt, size: 16, color: Colors.white),
+                                    : const Icon(Icons.camera_alt,
+                                        size: 16, color: Colors.white),
                               ),
                             ),
                           ),
@@ -242,7 +265,8 @@ class _SettingsPageState extends State<SettingsPage> {
                                 if (user.isVerified)
                                   const Padding(
                                     padding: EdgeInsets.only(right: 6),
-                                    child: Icon(Icons.verified, size: 18, color: Color(0xFF4A82FF)),
+                                    child: Icon(Icons.verified,
+                                        size: 18, color: Color(0xFF4A82FF)),
                                   ),
                               ],
                             ),
@@ -263,20 +287,21 @@ class _SettingsPageState extends State<SettingsPage> {
                 const SizedBox(height: 18),
 
                 // ===== Preferences =====
-                const Text('التفضيلات', style: TextStyle(fontWeight: FontWeight.bold)),
+                const Text('التفضيلات',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
                 const SizedBox(height: 8),
 
                 _SettingsTile(
                   icon: Icons.dark_mode,
-                  title: 'المظهر',
-                  subtitle: 'فاتح / داكن',
+                  title: S.of(context).theme,
+                  subtitle: S.of(context).theme_hint,
                   onTap: () => _showThemeSheet(context),
                 ),
 
                 _SettingsTile(
                   icon: Icons.language,
-                  title: 'اللغة',
-                  subtitle: 'العربية / English',
+                  title: S.of(context).language,
+                  subtitle: S.of(context).language_hint,
                   onTap: () => _showLanguageSheet(context),
                 ),
 
@@ -285,19 +310,25 @@ class _SettingsPageState extends State<SettingsPage> {
 
                 // ===== Security =====
                 const SizedBox(height: 8),
-                const Text('الأمان', style: TextStyle(fontWeight: FontWeight.bold)),
+                const Text('الأمان',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
                 const SizedBox(height: 8),
 
                 _SettingsTile(
                   icon: Icons.lock,
-                  title: 'تغيير كلمة المرور',
-                  subtitle: 'إرسال رابط إعادة تعيين',
-                  onTap: () => _sendResetPasswordEmail(context),
+                  title: S.of(context).change_password,
+                  subtitle: S.of(context).change_password_hint,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => MenuPage()),
+                    );
+                  },
                 ),
                 _SettingsTile(
                   icon: Icons.lock,
-                  title: 'تسجيل الخروج',
-                  subtitle: 'تسجيل الخروج من الحساب',
+                  title: S.of(context).exit,
+                  subtitle: S.of(context).exit_hint,
                   onTap: () => logout(),
                 ),
               ],

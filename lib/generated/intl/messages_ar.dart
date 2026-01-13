@@ -22,29 +22,31 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-    "btn_loading": MessageLookupByLibrary.simpleMessage("جارٍ المعالجة..."),
-    "btn_next": MessageLookupByLibrary.simpleMessage("التالي"),
-    "error_auto_verify": MessageLookupByLibrary.simpleMessage(
-      "لم نتمكن من التحقق تلقائيًا من رقم هاتفك. يرجى إدخاله يدويًا.",
+    "posts": MessageLookupByLibrary.simpleMessage("المنشورات"),
+    "home": MessageLookupByLibrary.simpleMessage("الرئيسية"),
+    "settings": MessageLookupByLibrary.simpleMessage("الإعدادات"),
+    "favorites": MessageLookupByLibrary.simpleMessage("المفضلة"),
+    "cart": MessageLookupByLibrary.simpleMessage(
+      "السلة",
     ),
-    "error_unknown": MessageLookupByLibrary.simpleMessage(
-      "حدث خطأ غير معروف. يرجى المحاولة مرة أخرى.",
+    "theme": MessageLookupByLibrary.simpleMessage(
+      "المظهر",
     ),
-    "error_verify_failed": MessageLookupByLibrary.simpleMessage(
-      "فشل التحقق. يرجى المحاولة مرة أخرى.",
+    "theme_hint": MessageLookupByLibrary.simpleMessage(
+      "النظام الإفتراضي / داكن / فاتح",
     ),
-    "login_charges_info": MessageLookupByLibrary.simpleMessage(
-      "قد يتم تطبيق رسوم من قبل شركة الاتصالات",
+    "language": MessageLookupByLibrary.simpleMessage(
+     "اللغة",
     ),
-    "login_field_hint": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
-    "login_subtitle": MessageLookupByLibrary.simpleMessage(
-      "يرجى إدخال رقم هاتفك لتسجيل الدخول إلى WhatsApp",
+    "language_hint": MessageLookupByLibrary.simpleMessage("العربية/English"),
+    "change_password": MessageLookupByLibrary.simpleMessage(
+      "تغيير كلمة المرور",
     ),
-    "login_subtitle_link": MessageLookupByLibrary.simpleMessage(
-      "ما هو رقم هاتفي؟",
+    "change_password_hint": MessageLookupByLibrary.simpleMessage(
+      "إرسال رابط إعادة تعيين",
     ),
-    "login_title": MessageLookupByLibrary.simpleMessage("أدخل رقم هاتفك"),
-    "search_hint": MessageLookupByLibrary.simpleMessage("ابدأ الكتابة للبحث"),
+    "exit": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
+    "exit_hint": MessageLookupByLibrary.simpleMessage("تسجيل الخروج من الحساب"),
     "search_label": MessageLookupByLibrary.simpleMessage("بحث"),
     "welcome_btn": MessageLookupByLibrary.simpleMessage("الموافقة والمتابعة"),
     "welcome_title": MessageLookupByLibrary.simpleMessage(

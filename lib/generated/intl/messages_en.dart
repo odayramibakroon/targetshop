@@ -22,6 +22,33 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+    "posts": MessageLookupByLibrary.simpleMessage("posts"),
+        "settings": MessageLookupByLibrary.simpleMessage("settings"),
+
+        "home": MessageLookupByLibrary.simpleMessage("home"),
+
+    "favorites": MessageLookupByLibrary.simpleMessage("favorites"),
+    "cart": MessageLookupByLibrary.simpleMessage(
+      "cart",
+    ),
+    "theme": MessageLookupByLibrary.simpleMessage(
+      "theme",
+    ),
+    "theme_hint": MessageLookupByLibrary.simpleMessage(
+      "default / dark / light",
+    ),
+    "language": MessageLookupByLibrary.simpleMessage(
+     "language",
+    ),
+    "language_hint": MessageLookupByLibrary.simpleMessage("العربية/English"),
+    "change_password": MessageLookupByLibrary.simpleMessage(
+      "change password",
+    ),
+    "change_password_hint": MessageLookupByLibrary.simpleMessage(
+      "Send password reset link",
+    ),
+    "exit": MessageLookupByLibrary.simpleMessage("exit"),
+    "exit_hint": MessageLookupByLibrary.simpleMessage("Sign out of the account"),
     "btn_loading": MessageLookupByLibrary.simpleMessage("Processing..."),
     "btn_next": MessageLookupByLibrary.simpleMessage("Next"),
     "error_auto_verify": MessageLookupByLibrary.simpleMessage(

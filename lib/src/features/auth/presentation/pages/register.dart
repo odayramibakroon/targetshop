@@ -31,7 +31,11 @@ class Register extends StatefulWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => getIt<AuthRegisterCubit>(),
+      
       child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Register"),
+        ),
         body: SafeArea(
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(20),

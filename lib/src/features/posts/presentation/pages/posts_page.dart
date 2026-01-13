@@ -6,6 +6,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:targetshop/generated/l10n.dart';
+import 'package:targetshop/src/core/utils/imgbb_service.dart';
 
 // عدّل المسارات حسب مشروعك
 import 'package:targetshop/src/features/home/presentation/widgets/shimmeruser.dart';
@@ -145,10 +147,7 @@ class UserTileLive extends StatelessWidget {
   }
 }
 
-/// =======================
-/// Posts Page (GLOBAL FEED)
-/// =======================
-class PostsPage extends StatelessWidget {
+  class PostsPage extends StatelessWidget {
   const PostsPage({super.key});
 
   Stream<QuerySnapshot<Map<String, dynamic>>> _postsStream() {
@@ -169,7 +168,7 @@ class PostsPage extends StatelessWidget {
           child: Scaffold(
             backgroundColor: const Color(0xFFF2F3F5),
             appBar: AppBar(
-              title: const Text('Posts'),
+              title:   Center(child: Text( S.of(context).posts)),
               backgroundColor: cs.primary,
               foregroundColor: Colors.white,
               actions: [
@@ -301,16 +300,44 @@ class PostCardFirebase extends StatelessWidget {
     required this.data,
   });
 
-  String _timeAgo(Timestamp? ts) {
-    if (ts == null) return 'الآن';
-    final dt = ts.toDate();
-    final diff = DateTime.now().difference(dt);
-    if (diff.inDays >= 365) return 'عام';
-    if (diff.inDays > 0) return '${diff.inDays} يوم';
-    if (diff.inHours > 0) return '${diff.inHours} ساعة';
-    if (diff.inMinutes > 0) return '${diff.inMinutes} دقيقة';
-    return 'الآن';
+String _timeAgo(Timestamp? ts) {
+  if (ts == null) return 'الآن';
+
+  final dt = ts.toDate();
+  final now = DateTime.now();
+
+  int years = now.year - dt.year;
+  int months = now.month - dt.month;
+  int days = now.day - dt.day;
+
+  // تصحيح القيم السالبة
+  if (days < 0) {
+    months -= 1;
+    final prevMonth = DateTime(now.year, now.month, 0);
+    days += prevMonth.day;
   }
+
+  if (months < 0) {
+    years -= 1;
+    months += 12;
+  }
+
+  final diff = now.difference(dt);
+
+  if (years > 0) {
+    String result = '$years سنة';
+    if (months > 0) result += ' و $months شهر';
+    if (days > 0) result += ' و $days يوم';
+    return result;
+  }
+
+  if (diff.inDays > 0) return '${diff.inDays} يوم';
+  if (diff.inHours > 0) return '${diff.inHours} ساعة';
+  if (diff.inMinutes > 0) return '${diff.inMinutes} دقيقة';
+
+  return 'الآن';
+}
+
 
   Stream<DocumentSnapshot<Map<String, dynamic>>> _likeDocStream() {
     return Fb.postDoc(postId).collection('likes').doc(Fb.uid).snapshots();
@@ -442,7 +469,28 @@ class PostCardFirebase extends StatelessWidget {
             if (imageUrl != null && imageUrl.isNotEmpty)
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: Image.network(imageUrl, height: 220, fit: BoxFit.cover),
+                child:GestureDetector(
+  onTap: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => FullScreenImagePage(imageUrl: imageUrl),
+      ),
+    );
+  },
+  child: Hero(
+    tag: imageUrl,
+    child: ClipRRect(
+      borderRadius: BorderRadius.circular(14),
+      child: Image.network(
+        imageUrl,
+        height: 260,
+        fit: BoxFit.cover,
+      ),
+    ),
+  ),
+),
+ 
               ),
 
             Padding(
@@ -628,6 +676,7 @@ class PostComposerScreen extends StatefulWidget {
 
 class _PostComposerScreenState extends State<PostComposerScreen> {
   final controller = TextEditingController();
+
   Uint8List? imageBytes;
   bool isUploading = false;
 
@@ -637,7 +686,9 @@ class _PostComposerScreenState extends State<PostComposerScreen> {
     final result = await FilePicker.platform.pickFiles(
       type: FileType.image,
       withData: true,
+      allowMultiple: false,
     );
+
     if (result == null || result.files.isEmpty) return;
 
     final file = result.files.first;
@@ -657,22 +708,32 @@ class _PostComposerScreenState extends State<PostComposerScreen> {
     if (!canPost || isUploading) return;
 
     setState(() => isUploading = true);
+
     try {
       String? imageUrl;
 
-      // TODO: upload image to storage then set imageUrl
-      // if (imageBytes != null) imageUrl = await Fb.uploadPostImage(...);
+      // ✅ إذا فيه صورة: ارفعها لـ imgBB وخذ الرابط
+      if (imageBytes != null) {
+        imageUrl = await ImgBBService.uploadBytes(imageBytes!);
+      }
 
+      // ✅ الآن أنشئ البوست برابط الصورة
       await Fb.createPost(
         text: controller.text.trim(),
         imageUrl: imageUrl,
       );
 
       if (mounted) Navigator.pop(context);
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('❌ فشل نشر المنشور: $e')),
+      );
     } finally {
       if (mounted) setState(() => isUploading = false);
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -706,12 +767,19 @@ class _PostComposerScreenState extends State<PostComposerScreen> {
         body: ListView(
           padding: const EdgeInsets.all(14),
           children: [
+            // Header user
             UserTileLive(
               uid: Fb.uid,
               builder: ({required name, required image, required verifiedaccount}) {
+                final hasImage = image.isNotEmpty && image.startsWith('http');
                 return Row(
                   children: [
-                    CircleAvatar(radius: 18, backgroundImage: NetworkImage(image)),
+                    CircleAvatar(
+                      radius: 18,
+                      backgroundColor: Colors.grey.shade200,
+                      backgroundImage: hasImage ? NetworkImage(image) : null,
+                      child: hasImage ? null : const Icon(Icons.person),
+                    ),
                     const SizedBox(width: 10),
                     Text(name, style: const TextStyle(fontWeight: FontWeight.w800)),
                     const SizedBox(width: 6),
@@ -721,7 +789,9 @@ class _PostComposerScreenState extends State<PostComposerScreen> {
                 );
               },
             ),
+
             const SizedBox(height: 12),
+
             TextField(
               controller: controller,
               maxLines: 6,
@@ -731,12 +801,14 @@ class _PostComposerScreenState extends State<PostComposerScreen> {
               ),
               onChanged: (_) => setState(() {}),
             ),
+
             const SizedBox(height: 12),
+
             Row(
               children: [
                 Expanded(
                   child: OutlinedButton.icon(
-                    onPressed: _pickImageFromComputer,
+                    onPressed: isUploading ? null : _pickImageFromComputer,
                     icon: const Icon(Icons.image_outlined),
                     label: const Text('اختيار صورة من الكمبيوتر'),
                   ),
@@ -744,18 +816,39 @@ class _PostComposerScreenState extends State<PostComposerScreen> {
                 const SizedBox(width: 10),
                 if (imageBytes != null)
                   IconButton(
-                    onPressed: () => setState(() => imageBytes = null),
+                    onPressed: isUploading ? null : () => setState(() => imageBytes = null),
                     icon: const Icon(Icons.close),
                     tooltip: 'إزالة الصورة',
                   ),
               ],
             ),
+
             const SizedBox(height: 12),
+
             if (imageBytes != null)
               ClipRRect(
                 borderRadius: BorderRadius.circular(14),
-                child: Image.memory(imageBytes!, height: 240, fit: BoxFit.cover),
+                child: Image.memory(
+                  imageBytes!,
+                  height: 240,
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) {
+                    return Container(
+                      height: 240,
+                      alignment: Alignment.center,
+                      color: Colors.grey.shade200,
+                      child: const Text('تعذر عرض الصورة المختارة'),
+                    );
+                  },
+                ),
               ),
+
+            if (isUploading) ...[
+              const SizedBox(height: 16),
+              const LinearProgressIndicator(),
+              const SizedBox(height: 8),
+              const Text('جاري رفع الصورة ونشر المنشور...'),
+            ],
           ],
         ),
       ),
@@ -782,7 +875,7 @@ class PostDetailsScreen extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        appBar: AppBar(title: const Text('تفاصيل المنشور')),
+        appBar: AppBar(title: Center(child: const Text('تفاصيل المنشور'))),
         body: Column(
           children: [
             Expanded(
@@ -822,7 +915,27 @@ class PostDetailsScreen extends StatelessWidget {
                         const SizedBox(height: 12),
                         ClipRRect(
                           borderRadius: BorderRadius.circular(14),
-                          child: Image.network(imageUrl, height: 260, fit: BoxFit.cover),
+                          child: GestureDetector(
+  onTap: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => FullScreenImagePage(imageUrl: imageUrl),
+      ),
+    );
+  },
+  child: Hero(
+    tag: imageUrl,
+    child: ClipRRect(
+      borderRadius: BorderRadius.circular(14),
+      child: Image.network(
+        imageUrl,
+        height: 260,
+        fit: BoxFit.cover,
+      ),
+    ),
+  ),
+),
                         ),
                       ],
                       const SizedBox(height: 12),
@@ -993,7 +1106,7 @@ class LikesListScreen extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        appBar: AppBar(title: const Text('الأشخاص الذين أعجبهم')),
+        appBar: AppBar(title: Center(child: Text('الأشخاص الذين أعجبهم'))),
         body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
           stream: likesRef.snapshots(),
           builder: (context, snap) {
@@ -1027,6 +1140,50 @@ class LikesListScreen extends StatelessWidget {
               },
             );
           },
+        ),
+      ),
+    );
+  }
+}
+class FullScreenImagePage extends StatelessWidget {
+  final String imageUrl;
+
+  const FullScreenImagePage({super.key, required this.imageUrl});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
+        elevation: 0,
+      ),
+      body: Center(
+        child: Hero(
+          tag: imageUrl,
+          child: InteractiveViewer(
+            minScale: 1,
+            maxScale: 5,
+            child: Image.network(
+              imageUrl,
+              fit: BoxFit.contain,
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) return child;
+                return const Center(
+                  child: CircularProgressIndicator(color: Colors.white),
+                );
+              },
+              errorBuilder: (_, __, ___) {
+                return const Center(
+                  child: Text(
+                    'Failed to load image',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                );
+              },
+            ),
+          ),
         ),
       ),
     );

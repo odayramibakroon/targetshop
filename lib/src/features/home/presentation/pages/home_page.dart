@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:targetshop/generated/l10n.dart';
 import 'package:targetshop/src/features/home/presentation/widgets/shimmeruser.dart';
  
 import '../../../../core/config/container.dart';
@@ -27,6 +28,7 @@ class HomePage extends StatelessWidget {
           onPressed: addProduct,
           child: const Icon(Icons.add),
         ),
+        appBar: AppBar(title: Center(child: Text( S.of(context).home)),),
         body: CustomScrollView(
           slivers: [
          SliverToBoxAdapter(
@@ -35,6 +37,7 @@ class HomePage extends StatelessWidget {
     child: BlocBuilder<UserCubit, UserState>(
       builder: (context, state) {
         if (state is UserLoading) {
+          
            return const SkeletonListuser();
         }
 
@@ -61,8 +64,26 @@ class HomePage extends StatelessWidget {
             ],
           );
         }
+    if (state is UserError) {
+          final user = state.message;
 
-        // حالة خطأ أو فارغة
+           return Row(
+            children: [
+            
+              const SizedBox(width: 12),
+              Text(
+                '${user.toString()}  ',
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            
+  
+            ],
+          );
+        }
+
         return const SizedBox.shrink();
       },
     ),

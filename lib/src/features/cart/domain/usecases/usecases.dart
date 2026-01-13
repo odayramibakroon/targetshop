@@ -2,7 +2,7 @@
     import '../repositories/repositories.dart';
 
     class GetProfileUseCase {
-        final ProfileRepository repository;
+        final CartRepository repository;
       
         GetProfileUseCase({required this.repository});
       

@@ -12,6 +12,7 @@ class RoutesName {
   static const fingerPrint = '/finger_print';
   // ! Home
   static const home = '/home';
+  static const forgetpassword = '/forgetpassword';
   static const Products = '/Products';
   // ! Chat
   static const chat = '/chat';

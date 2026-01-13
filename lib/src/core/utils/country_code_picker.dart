@@ -36,8 +36,8 @@ void showCountryPickerDialog(
       searchTextStyle: theme.textTheme.bodyLarge,
 
       inputDecoration: InputDecoration(
-        labelText: S.of(context).search_label,
-        hintText: S.of(context).search_hint,
+        labelText:" S.of(context).search_label",
+        hintText:" S.of(context).search_hint",
 
         labelStyle: theme.textTheme.bodyMedium?.copyWith(
           color: theme.colorScheme.onSurface.withValues(alpha: .6),

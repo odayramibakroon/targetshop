@@ -3,6 +3,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:targetshop/src/features/auth/cubit/auth_register_cubit.dart';
+import 'package:targetshop/src/features/cart/cubit/cart_cubit.dart';
+import 'package:targetshop/src/features/cart/data/implements/implements.dart';
+import 'package:targetshop/src/features/cart/data/sources/sources.dart';
+import 'package:targetshop/src/features/cart/domain/repositories/repositories.dart';
+import 'package:targetshop/src/features/cart/domain/usecases/stream_user_products_use_case.dart';
 import 'package:targetshop/src/features/favorites/cubit/favorite_products_cubit.dart';
 import 'package:targetshop/src/features/favorites/data/implements/implements.dart';
 import 'package:targetshop/src/features/favorites/data/sources/sources.dart';
@@ -96,10 +101,16 @@ getIt.registerLazySingleton<FavoriteProductRemoteDataSource>(
    
   ),
 );
+
+
+
     //==================== home
     getIt.registerLazySingleton<HomeRemoteDataSource>(
       () => HomeRemoteDataSourceImpl(firestore: getIt()),
     );
+
+
+    
     // Repository
     getIt.registerLazySingleton<HomeRepository>(
       () => HomeRepositoryImp(remoteDataSource: getIt()),
@@ -109,6 +120,38 @@ getIt.registerLazySingleton<FavoriteProductRemoteDataSource>(
         //==================== home>products
 
     getIt.registerLazySingleton(() => GetProductsByCategoryUseCase(  repository: getIt()));
+
+
+    //==================== cart
+
+
+    getIt.registerFactory(() => CartCubit(
+   getIt()
+));  
+
+
+    getIt.registerLazySingleton(() => StreamUserProductsUseCase(repository: getIt()));
+    
+    getIt.registerLazySingleton<CartRemoteDataSource>(() => CartRemoteDataSourceImp());
+   getIt.registerLazySingleton<CartRepository>(() => CartRepositoryImp(remoteDataSource: getIt()));
+
+
+ 
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   }
     
 

@@ -1,7 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'intl/messages_all.dart';
+ import 'intl/messages_all.dart';
 
 // **************************************************************************
 // Generator: Flutter Intl IDE plugin
@@ -55,100 +55,120 @@ class S {
   }
 
   /// `Welcome to Instant WhatsApp`
-  String get welcome_title {
+  String get posts {
     return Intl.message(
-      'Welcome to Instant WhatsApp',
-      name: 'welcome_title',
+      'posts',
+      name: 'posts',
       desc: '',
       args: [],
     );
   }
-
-  /// `Agree and Continue`
-  String get welcome_btn {
+ String get home {
     return Intl.message(
-      'Agree and Continue',
-      name: 'welcome_btn',
+      'Home',
+      name: 'home',
+      desc: '',
+      args: [],
+    );
+  }
+   String get settings {
+    return Intl.message(
+      'settings',
+      name: 'settings',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Agree and Continue`
+  String get favorites {
+    return Intl.message(
+      'favorites',
+      name: 'favorites',
       desc: '',
       args: [],
     );
   }
 
   /// `Enter your phone number`
-  String get login_title {
+  String get cart {
     return Intl.message(
-      'Enter your phone number',
-      name: 'login_title',
+      'cart',
+      name: 'cart',
       desc: '',
       args: [],
     );
   }
 
   /// `WhatsApp will need to verify your number`
-  String get login_subtitle {
+  String get theme {
     return Intl.message(
-      'WhatsApp will need to verify your number',
-      name: 'login_subtitle',
+      'theme',
+      name: 'theme',
       desc: '',
       args: [],
     );
   }
 
   /// `What's my number?`
-  String get login_subtitle_link {
+  String get language {
     return Intl.message(
-      'What\'s my number?',
-      name: 'login_subtitle_link',
+      'language',
+      name: 'language',
       desc: '',
       args: [],
     );
   }
 
   /// `Phone number`
-  String get login_field_hint {
+  String get language_hint {
     return Intl.message(
-      'Phone number',
-      name: 'login_field_hint',
+      'العربية/English',
+      name: 'language_hint',
       desc: '',
       args: [],
     );
   }
 
   /// `Carrier charges may apply`
-  String get login_charges_info {
+  String get change_password {
     return Intl.message(
-      'Carrier charges may apply',
-      name: 'login_charges_info',
+      'change password',
+      name: 'change_password',
       desc: '',
       args: [],
     );
   }
-
-  /// `Next`
-  String get btn_next {
-    return Intl.message('Next', name: 'btn_next', desc: '', args: []);
+  String get change_password_hint {
+    return Intl.message(
+      'Send password reset link',
+      name: 'change_password_hint',
+      desc: '',
+      args: [],
+    );
   }
+ 
+ 
 
   /// `Processing...`
-  String get btn_loading {
+  String get theme_hint {
     return Intl.message(
-      'Processing...',
-      name: 'btn_loading',
+      'default/dark /light',
+      name: 'theme_hint',
       desc: '',
       args: [],
     );
   }
 
   /// `Search`
-  String get search_label {
-    return Intl.message('Search', name: 'search_label', desc: '', args: []);
+  String get exit {
+    return Intl.message('exit', name: 'Exit', desc: '', args: []);
   }
 
   /// `Start typing to search`
-  String get search_hint {
+  String get exit_hint {
     return Intl.message(
-      'Start typing to search',
-      name: 'search_hint',
+      'Sign out of the account',
+      name: 'exit_hint',
       desc: '',
       args: [],
     );
@@ -157,7 +177,7 @@ class S {
   /// `We couldn't automatically verify your phone number. Please enter it manually.`
   String get error_auto_verify {
     return Intl.message(
-      'We couldn\'t automatically verify your phone number. Please enter it manually.',
+      'theme',
       name: 'error_auto_verify',
       desc: '',
       args: [],

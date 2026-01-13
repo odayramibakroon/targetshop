@@ -33,6 +33,7 @@ class ShowProducts extends StatelessWidget {
   });
     }
     return Scaffold(
+      appBar: AppBar(title: Text("Products")),
       floatingActionButton: FloatingActionButton(
         onPressed: addProduct,
         child: const Icon(Icons.add),
@@ -66,7 +67,7 @@ class ShowProducts extends StatelessWidget {
                 ),
               ),
              if (user.isVerified) // تظهر فقط لو true
-                    Icon(Icons.verified, size: 16, color: const Color.fromARGB(255, 255, 74, 74)), 
+                    Icon(Icons.verified, size: 16, color:  const Color.fromARGB(255, 74, 130, 255)), 
 
       // Icon(Icons.verified, size: 24, color: const Color.fromARGB(255, 74, 130, 255)), 
             ],

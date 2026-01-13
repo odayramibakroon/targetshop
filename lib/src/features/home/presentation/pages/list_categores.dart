@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:targetshop/src/features/home/presentation/widgets/skeleton_list_products.dart';
 
 import '../../../../core/routes/names.dart';
 import '../../cubit/categories_cubit.dart';
@@ -16,9 +17,7 @@ class ListCategories extends StatelessWidget {
     return BlocBuilder<CategoriesCubit, CategoriesState>(
       builder: (context, state) {
         if (state is CategoriesLoading) {
-          return const SliverToBoxAdapter(
-            child: Center(child: CircularProgressIndicator()),
-          );
+          return const SkeletonListProducts();
         } else if (state is CategoriesError) {
           return SliverToBoxAdapter(
             child: Center(
