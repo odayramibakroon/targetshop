@@ -26,7 +26,6 @@ Stream<List<ProductsModel>> streamUserProducts() {
           }).toList());
 }
 
-
    double calculateTotalPrice(List<ProductsModel> products) {
     double total = 0.0;
     for (var product in products) {
@@ -78,7 +77,11 @@ Stream<List<ProductsModel>> streamUserProducts() {
 
 
                           ),
-                          InvoiceWidget(context: context, totalPrice: calculateTotalPrice(products)),
+                          InvoiceWidget(
+                            context: context,
+                            totalPrice: calculateTotalPrice(products),
+                            products: products,
+                          ),
                         ],
                       );
                     });
@@ -89,4 +92,3 @@ Stream<List<ProductsModel>> streamUserProducts() {
 }
 
 
- 

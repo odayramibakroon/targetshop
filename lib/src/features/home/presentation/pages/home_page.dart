@@ -90,8 +90,7 @@ class HomePage extends StatelessWidget {
   ),
 )
 ,
-            // حقل البحث
-            SliverToBoxAdapter(
+             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: TextField(
@@ -107,14 +106,13 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ),
-
-            // عرض المنتجات من Firebase
-            BlocProvider(
+ 
+             BlocProvider(
               create: (context) => CategoriesCubit(getIt())..fetchCategories(),
               child: ListCategories(),
             )
           ],
-        ) //closed custom
+        )  
 
         );
   }

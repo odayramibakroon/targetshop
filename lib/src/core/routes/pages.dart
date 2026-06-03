@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:targetshop/src/core/config/config.dart';
 import 'package:targetshop/src/features/auth/presentation/pages/forget_password.dart';
+import 'package:targetshop/src/features/auth/presentation/pages/phone_screen_page.dart';
 import 'package:targetshop/src/features/home/presentation/pages/show_products.dart';
 import 'package:targetshop/src/features/users/cubit/user_cubit.dart';
 import '../../features/auth/presentation/pages/login_page.dart';

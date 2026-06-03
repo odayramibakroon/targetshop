@@ -30,8 +30,7 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
     if (snapshot.docs.isEmpty) {
       return [];
     }
-    return snapshot.docs
-        .map((doc) => Category(
+    return snapshot.docs.map((doc) => Category(
               id: doc.id,
               name: doc['name'] ?? '',
               details: doc['details'] ?? '',

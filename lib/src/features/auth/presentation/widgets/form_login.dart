@@ -63,8 +63,7 @@ class _LoginFormState extends State<FormLogin> {
           ),
           const SizedBox(height: 16),
 
-          // 🔒 حقل الباسورد
-          TextFormField(
+           TextFormField(
             controller: _passwordController,
             onFieldSubmitted: (value) => login( ),
             obscureText: _obscurePassword,
@@ -92,8 +91,7 @@ class _LoginFormState extends State<FormLogin> {
           ),
           const SizedBox(height: 24),
 
-          // 🔘 زر تسجيل الدخول
-          ElevatedButton(
+           ElevatedButton(
             onPressed: () {
               login();
             },

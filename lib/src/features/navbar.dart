@@ -8,6 +8,7 @@ import 'home/presentation/pages/home_page.dart';
 import 'cart/presentation/pages/cart_page.dart';
 import 'settings/presentation/pages/setting_page.dart';
 import 'favorites/presentation/pages/favorites_page.dart';
+import 'orders/presentation/pages/orders_page.dart';
 import 'posts/presentation/pages/posts_page.dart';
 
 class MainLayout extends StatefulWidget {
@@ -25,6 +26,7 @@ class _MainLayoutState extends State<MainLayout> {
     PostsPage(),
     FavoritesPage(),
     CartPage(),
+    OrdersPage(),
     SettingsPage(),
   ];
 
@@ -48,6 +50,7 @@ class _MainLayoutState extends State<MainLayout> {
             BottomNavigationBarItem(icon: Icon(Icons.newspaper), label: S.of(context).posts),
             BottomNavigationBarItem(icon: Icon(Icons.favorite), label: S.of(context).favorites),
             BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: S.of(context).cart),
+            BottomNavigationBarItem(icon: Icon(Icons.receipt_long), label: 'Orders'),
             BottomNavigationBarItem(icon: Icon(Icons.settings), label: S.of(context).settings),
           ],
         ),
