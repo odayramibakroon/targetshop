@@ -33,5 +33,10 @@ import '../sources/sources.dart';
       isLiked: isLiked,
     );
   }
+  
+  @override
+  Future<void> addCategory(Category category) {
+    return   remoteDataSource.addCategory(category);
+  }
     }
     

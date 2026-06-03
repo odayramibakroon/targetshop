@@ -14,11 +14,6 @@ import '../sources/sources.dart';
     return remoteDataSource.streamUserProducts();
   }
       
-        // ... example ...
-        //
-        // Future<User> getUser(String userId) async {
-        //     return remoteDataSource.getUser(userId);
-        //   }
-        // ...
+    
     }
     

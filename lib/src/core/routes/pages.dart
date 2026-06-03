@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:targetshop/src/core/config/config.dart';
 import 'package:targetshop/src/features/auth/presentation/pages/forget_password.dart';
 import 'package:targetshop/src/features/auth/presentation/pages/phone_screen_page.dart';
+import 'package:targetshop/src/features/home/cubit/categories_cubit.dart';
 import 'package:targetshop/src/features/home/presentation/pages/show_products.dart';
 import 'package:targetshop/src/features/users/cubit/user_cubit.dart';
 import '../../features/auth/presentation/pages/login_page.dart';
@@ -43,7 +44,7 @@ class AppRoute {
     ),
   );
 
-      case RoutesName.Products:
+     
              
 
 
@@ -60,8 +61,21 @@ class AppRoute {
              
  //
  
+  
+
       case RoutesName.home:
-        return CustomPageRoute(page: const HomePage());
+        return CustomPageRoute(page:    BlocProvider<CategoriesCubit>(
+      create: (context) => getIt<CategoriesCubit>()..fetchCategories(),
+      child: HomePage(),
+    ),);
+
+
+
+
+
+
+
+
       case RoutesName.register:
         return CustomPageRoute(page: const Register());
       case RoutesName.favorites:

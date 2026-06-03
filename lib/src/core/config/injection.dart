@@ -1,165 +1,216 @@
- 
- import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:targetshop/src/features/auth/cubit/auth_register_cubit.dart';
-import 'package:targetshop/src/features/cart/cubit/cart_cubit.dart';
-import 'package:targetshop/src/features/cart/data/implements/implements.dart';
-import 'package:targetshop/src/features/cart/data/sources/sources.dart';
-import 'package:targetshop/src/features/cart/domain/repositories/repositories.dart';
-import 'package:targetshop/src/features/cart/domain/usecases/stream_user_products_use_case.dart';
-import 'package:targetshop/src/features/favorites/cubit/favorite_products_cubit.dart';
-import 'package:targetshop/src/features/favorites/data/implements/implements.dart';
-import 'package:targetshop/src/features/favorites/data/sources/sources.dart';
-import 'package:targetshop/src/features/favorites/domain/repositories/repositories.dart';
-import 'package:targetshop/src/features/favorites/domain/usecases/favorite_products_usecase.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../features/auth/cubit/auth_cubit.dart';
+import '../../features/auth/cubit/auth_register_cubit.dart';
 import '../../features/auth/data/implements/implements.dart';
 import '../../features/auth/data/sources/sources.dart';
 import '../../features/auth/domain/repositories/repositories.dart';
 import '../../features/auth/domain/usecases/adduserusecase.dart';
 import '../../features/auth/domain/usecases/login_use_case.dart';
-import '../../features/auth/domain/usecases/usecases.dart'; 
-import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import '../../features/auth/domain/usecases/usecases.dart';
+
+import '../../features/cart/cubit/cart_cubit.dart';
+import '../../features/cart/data/implements/implements.dart';
+import '../../features/cart/data/sources/sources.dart';
+import '../../features/cart/domain/repositories/repositories.dart';
+import '../../features/cart/domain/usecases/stream_user_products_use_case.dart';
+
+import '../../features/favorites/cubit/favorite_products_cubit.dart';
+import '../../features/favorites/data/implements/implements.dart';
+import '../../features/favorites/data/sources/sources.dart';
+import '../../features/favorites/domain/repositories/repositories.dart';
+import '../../features/favorites/domain/usecases/favorite_products_usecase.dart';
 
 import '../../features/home/cubit/categories_cubit.dart';
 import '../../features/home/data/implements/implements.dart';
 import '../../features/home/data/sources/sources.dart';
 import '../../features/home/domain/repositories/repositories.dart';
+import '../../features/home/domain/usecases/addcategory.dart';
 import '../../features/home/domain/usecases/getproducts.dart';
 import '../../features/home/domain/usecases/usecases.dart';
+
 import '../../features/users/cubit/user_cubit.dart';
+
 import '../localization/language_cubit.dart';
 import '../localization/language_data_source.dart';
+
 final getIt = GetIt.instance;
 
 class DependencyInjection {
   static Future<void> init() async {
-     final sharedPrefs = await SharedPreferences.getInstance();
+    final sharedPrefs = await SharedPreferences.getInstance();
 
-     getIt.registerLazySingleton<LanguageDataSource>(
-      () => LanguageDataSource(sharedPrefs),
+    // ==================== Core / External
+    getIt.registerLazySingleton<SharedPreferences>(() => sharedPrefs);
+
+    getIt.registerLazySingleton<FirebaseAuth>(
+      () => FirebaseAuth.instance,
     );
-    // Firebas e
-    getIt.registerLazySingleton(() => FirebaseAuth.instance);
-  getIt.registerLazySingleton(() => FirebaseFirestore.instance);
-     getIt.registerLazySingleton<AuthRemoteDataSource>(
-        () => AuthRemoteDataSourceImpl(getIt(),getIt()));
 
- getIt.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(getIt()));
- 
-    // UseCase
-    getIt.registerLazySingleton(() => RegisterUseCase(getIt()));
+    getIt.registerLazySingleton<FirebaseFirestore>(
+      () => FirebaseFirestore.instance,
+    );
 
-    // Cubit
-  // UseCases
-   getIt.registerLazySingleton(() => AddUserUseCase(getIt()));
+    // ==================== Localization
+    getIt.registerLazySingleton<LanguageDataSource>(
+      () => LanguageDataSource(getIt<SharedPreferences>()),
+    );
 
-  // Cubit
-getIt.registerFactory(() => AuthCubit(
-  
-  getIt<LoginUseCase>(),
-));   
-
-getIt.registerFactory(() => AuthRegisterCubit(
-  
-  getIt<RegisterUseCase>(),
-));  
-
-getIt.registerFactory(() => UserCubit(
-  
-));   
- 
-getIt.registerLazySingleton<FavoritesRepository>(
-  () => FavoritesRepositoryImpl(
-    getIt<FavoriteProductRemoteDataSource>(
-    ),
-  ),
-);
-getIt.registerLazySingleton(
-  () => GetFavoriteProductsUseCase(getIt<FavoritesRepository>()),
-);
-
- 
-getIt.registerFactory(
-  () => FavoriteProductsCubit(getIt<GetFavoriteProductsUseCase>()),
-);
-
-getIt.registerLazySingleton(() => LoginUseCase(getIt<AuthRepository>()));
-
-       getIt.registerLazySingleton<LanguageCubit>(
+    getIt.registerLazySingleton<LanguageCubit>(
       () => LanguageCubit(
         getIt<LanguageDataSource>(),
-        Locale('en'),  
+        const Locale('en'),
       ),
     );
-getIt.registerLazySingleton<FavoriteProductRemoteDataSource>(
-  () => FavoriteProductRemoteDataSourceImpl(
-    firestore: getIt<FirebaseFirestore>(),
-   
-  ),
-);
 
+    // ==================== Auth Data Source
+    getIt.registerLazySingleton<AuthRemoteDataSource>(
+      () => AuthRemoteDataSourceImpl(
+        getIt<FirebaseAuth>(),
+        getIt<FirebaseFirestore>(),
+      ),
+    );
 
+    // ==================== Auth Repository
+    getIt.registerLazySingleton<AuthRepository>(
+      () => AuthRepositoryImpl(
+        getIt<AuthRemoteDataSource>(),
+      ),
+    );
 
-    //==================== home
+    // ==================== Auth Use Cases
+    getIt.registerLazySingleton<RegisterUseCase>(
+      () => RegisterUseCase(
+        getIt<AuthRepository>(),
+      ),
+    );
+
+    getIt.registerLazySingleton<LoginUseCase>(
+      () => LoginUseCase(
+        getIt<AuthRepository>(),
+      ),
+    );
+
+    getIt.registerLazySingleton<AddUserUseCase>(
+      () => AddUserUseCase(
+        getIt<AuthRepository>(),
+      ),
+    );
+
+    // ==================== Auth Cubits
+    getIt.registerFactory<AuthCubit>(
+      () => AuthCubit(
+        getIt<LoginUseCase>(),
+      ),
+    );
+
+    getIt.registerFactory<AuthRegisterCubit>(
+      () => AuthRegisterCubit(
+        getIt<RegisterUseCase>(),
+      ),
+    );
+
+    getIt.registerFactory<UserCubit>(
+      () => UserCubit(),
+    );
+
+    // ==================== Home Data Source
     getIt.registerLazySingleton<HomeRemoteDataSource>(
-      () => HomeRemoteDataSourceImpl(firestore: getIt()),
+      () => HomeRemoteDataSourceImpl(
+        firestore: getIt<FirebaseFirestore>(),
+      ),
     );
 
-
-    
-    // Repository
+    // ==================== Home Repository
     getIt.registerLazySingleton<HomeRepository>(
-      () => HomeRepositoryImp(remoteDataSource: getIt()),
+      () => HomeRepositoryImp(
+        remoteDataSource: getIt<HomeRemoteDataSource>(),
+      ),
     );
-    // UseCase
-    getIt.registerLazySingleton(() => GetHomeUseCase(repository: getIt()));
-        //==================== home>products
 
-    getIt.registerLazySingleton(() => GetProductsByCategoryUseCase(  repository: getIt()));
+    // ==================== Home Use Cases
+    getIt.registerLazySingleton<GetHomeUseCase>(
+      () => GetHomeUseCase(
+        repository: getIt<HomeRepository>(),
+      ),
+    );
 
+    getIt.registerLazySingleton<AddCategoryUseCase>(
+      () => AddCategoryUseCase(
+          getIt<HomeRepository>(),
+      ),
+    );
 
-    //==================== cart
+    getIt.registerLazySingleton<GetProductsByCategoryUseCase>(
+      () => GetProductsByCategoryUseCase(
+        repository: getIt<HomeRepository>(),
+      ),
+    );
 
+    // ==================== Home Cubit
+    getIt.registerFactory<CategoriesCubit>(
+      () => CategoriesCubit(
+        getIt<GetHomeUseCase>(),
+        getIt<AddCategoryUseCase>(),
+      ),
+    );
 
-    getIt.registerFactory(() => CartCubit(
-   getIt()
-));  
+    // ==================== Favorites Data Source
+    getIt.registerLazySingleton<FavoriteProductRemoteDataSource>(
+      () => FavoriteProductRemoteDataSourceImpl(
+        firestore: getIt<FirebaseFirestore>(),
+      ),
+    );
 
+    // ==================== Favorites Repository
+    getIt.registerLazySingleton<FavoritesRepository>(
+      () => FavoritesRepositoryImpl(
+        getIt<FavoriteProductRemoteDataSource>(),
+      ),
+    );
 
-    getIt.registerLazySingleton(() => StreamUserProductsUseCase(repository: getIt()));
-    
-    getIt.registerLazySingleton<CartRemoteDataSource>(() => CartRemoteDataSourceImp());
-   getIt.registerLazySingleton<CartRepository>(() => CartRepositoryImp(remoteDataSource: getIt()));
+    // ==================== Favorites Use Cases
+    getIt.registerLazySingleton<GetFavoriteProductsUseCase>(
+      () => GetFavoriteProductsUseCase(
+        getIt<FavoritesRepository>(),
+      ),
+    );
 
+    // ==================== Favorites Cubit
+    getIt.registerFactory<FavoriteProductsCubit>(
+      () => FavoriteProductsCubit(
+        getIt<GetFavoriteProductsUseCase>(),
+      ),
+    );
 
- 
-   
+    // ==================== Cart Data Source
+    getIt.registerLazySingleton<CartRemoteDataSource>(
+      () => CartRemoteDataSourceImp(),
+    );
 
+    // ==================== Cart Repository
+    getIt.registerLazySingleton<CartRepository>(
+      () => CartRepositoryImp(
+        remoteDataSource: getIt<CartRemoteDataSource>(),
+      ),
+    );
 
+    // ==================== Cart Use Cases
+    getIt.registerLazySingleton<StreamUserProductsUseCase>(
+      () => StreamUserProductsUseCase(
+        repository: getIt<CartRepository>(),
+      ),
+    );
 
-
-
-
-
-
-
-
-
-
-
-
+    // ==================== Cart Cubit
+    getIt.registerFactory<CartCubit>(
+      () => CartCubit(
+        getIt<StreamUserProductsUseCase>(),
+      ),
+    );
   }
-    
-
-   //cubit
-  static void registerHomeCubit() {
-    getIt.registerFactory(() => CategoriesCubit(getIt()));
-  }
-
-
-   
 }

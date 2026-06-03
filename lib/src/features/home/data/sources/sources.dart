@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dartz/dartz.dart' as docRef;
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../domain/entities/categories_entity.dart';
@@ -7,6 +8,7 @@ import '../models/products_model.dart';
 
 abstract class HomeRemoteDataSource {
   Future<List<Category>> getCategories();
+  Future<void> addCategory(Category category);
   Stream<List<ProductsModel>> getProducts({required String categoryId});
 
   Future<void> toggleLike({
@@ -31,7 +33,7 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
       return [];
     }
     return snapshot.docs.map((doc) => Category(
-              id: doc.id,
+              id: doc.id.toString(),
               name: doc['name'] ?? '',
               details: doc['details'] ?? '',
               image: doc['image'] ?? '',
@@ -102,21 +104,33 @@ Future<void> toggleLike({
       .collection('users')
       .doc(uid)
       .collection('favorites')
-      .doc(productId); // استخدمي productId بدل categoryId
+      .doc(productId);  
 
   if (isLiked) {
-    // إضافة للمفضلة
-    await docRef.set({
+     await docRef.set({
       'categoryId': categoryId,
       'productId': productId,
       'isLiked': true,
       'createdAt': FieldValue.serverTimestamp(),
     });
   } else {
-    // إزالة من المفضلة
-    await docRef.delete();
+     await docRef.delete();
   }
 }
+
+  @override
+  Future<void> addCategory(Category category) async {
+            print("Adding category3: ${category.name}"); // Debug print
+
+
+        await FirebaseFirestore.instance.collection('categories').add({
+         'name': category.name,
+        'details': category.details,
+        'image': category.image,
+      });
+            print("Adding category4: ${category.name}"); // Debug print
+
+  }
 
 
 }

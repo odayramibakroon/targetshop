@@ -12,19 +12,7 @@ import '../../../../core/routes/names.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
-Stream<List<ProductsModel>> streamUserProducts() {
-  final uid = FirebaseAuth.instance.currentUser!.uid;
-
-  return FirebaseFirestore.instance
-      .collection('users')
-      .doc(uid)
-      .collection('products')
-      .snapshots()
-      .map((snapshot) => snapshot.docs.map((doc) {
-            final data = doc.data();
-            return ProductsModel.fromFirestore(data, doc.id);
-          }).toList());
-}
+ 
 
    double calculateTotalPrice(List<ProductsModel> products) {
     double total = 0.0;

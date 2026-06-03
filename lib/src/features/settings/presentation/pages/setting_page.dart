@@ -7,8 +7,7 @@ import 'package:targetshop/src/core/routes/names.dart';
 import 'package:targetshop/src/core/utils/theme_controller.dart';
 import 'package:targetshop/src/core/utils/user_image_service.dart';
 import 'package:targetshop/src/features/users/cubit/user_cubit.dart';
-import 'package:targetshop/src/features/posts/presentation/pages/testvideo.dart';
-
+ 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
 
@@ -17,8 +16,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  // 🔑 ضع مفتاح imgBB هنا
-  final String imgbbApiKey = 'e83fe0aadc3559783d52a821deff056c';
+   final String imgbbApiKey = 'e83fe0aadc3559783d52a821deff056c';
 
   bool _uploading = false;
 
@@ -32,9 +30,7 @@ class _SettingsPageState extends State<SettingsPage> {
       if (!mounted) return;
 
       if (url != null) {
-        // ✅ حدّث بيانات اليوزر من Firestore
-        // عدّل اسم الدالة حسب UserCubit عندك
-        context.read<UserCubit>().loadUser();
+         context.read<UserCubit>().loadUser();
 
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('✅ تم تحديث الصورة بنجاح')),
@@ -186,8 +182,7 @@ class _SettingsPageState extends State<SettingsPage> {
             return ListView(
               padding: const EdgeInsets.all(16),
               children: [
-                // ===== Profile Card =====
-                Container(
+                 Container(
                   padding: const EdgeInsets.all(14),
                   decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.surfaceVariant,
@@ -286,8 +281,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
                 const SizedBox(height: 18),
 
-                // ===== Preferences =====
-                const Text('التفضيلات',
+                 const Text('التفضيلات',
                     style: TextStyle(fontWeight: FontWeight.bold)),
                 const SizedBox(height: 8),
 
@@ -308,23 +302,12 @@ class _SettingsPageState extends State<SettingsPage> {
                 const SizedBox(height: 18),
                 const Divider(),
 
-                // ===== Security =====
-                const SizedBox(height: 8),
+                 const SizedBox(height: 8),
                 const Text('الأمان',
                     style: TextStyle(fontWeight: FontWeight.bold)),
                 const SizedBox(height: 8),
 
-                _SettingsTile(
-                  icon: Icons.lock,
-                  title: S.of(context).change_password,
-                  subtitle: S.of(context).change_password_hint,
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => MenuPage()),
-                    );
-                  },
-                ),
+          
                 _SettingsTile(
                   icon: Icons.lock,
                   title: S.of(context).exit,

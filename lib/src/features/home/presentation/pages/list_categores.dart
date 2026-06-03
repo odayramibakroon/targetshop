@@ -120,7 +120,7 @@ class ListCategories extends StatelessWidget {
           );
         }
 
-        return const SliverToBoxAdapter(); // حالة افتراضية
+        return const SliverToBoxAdapter();  
       },
     );
   }

@@ -31,6 +31,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "cart": MessageLookupByLibrary.simpleMessage(
       "cart",
     ),
+    "Orders": MessageLookupByLibrary.simpleMessage(
+      "Orders",
+    ),
     "theme": MessageLookupByLibrary.simpleMessage(
       "theme",
     ),

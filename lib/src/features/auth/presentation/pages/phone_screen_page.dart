@@ -15,8 +15,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
 
   bool _loading = false;
 
-  // مصر: +20xxxxxxxxxx
-  String _normalizeEgyptPhone(String input) {
+   String _normalizeEgyptPhone(String input) {
     var p = input.trim().replaceAll(' ', '');
     if (p.startsWith('0')) p = p.substring(1);
     if (!p.startsWith('+')) p = '+20$p';
@@ -26,8 +25,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
   Future<void> _sendOtp() async {
     final phone = _normalizeEgyptPhone(_phoneCtrl.text);
 
-    // رقم مصري نموذجي: +20 + 10/11 رقم (حسب الشبكة). خلينا نتحقق بشكل بسيط:
-    if (phone.length < 12) {
+     if (phone.length < 12) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('أدخل رقم صحيح')),
       );
@@ -46,7 +44,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
           builder: (_) => OtpScreen(
             phoneNumber: phone,
             service:
-                _service, // نمرّر نفس السيرفس عشان يحتفظ بالـ ConfirmationResult
+                _service,  
           ),
         ),
       );

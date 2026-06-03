@@ -36,8 +36,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
         const SnackBar(content: Text('تم إرسال رابط إعادة تعيين كلمة المرور ✅')),
       );
 
-      // اختياري: يرجع لصفحة تسجيل الدخول
-      Navigator.pop(context);
+       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       if (!mounted) return;
 

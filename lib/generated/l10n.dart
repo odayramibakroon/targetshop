@@ -98,7 +98,14 @@ class S {
       args: [],
     );
   }
-
+  String get Orders {
+    return Intl.message(
+      'Orders',
+      name: 'Orders',
+      desc: '',
+      args: [],
+    );
+  }
   /// `WhatsApp will need to verify your number`
   String get theme {
     return Intl.message(

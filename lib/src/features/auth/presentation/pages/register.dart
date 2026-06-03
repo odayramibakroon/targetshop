@@ -140,8 +140,7 @@ class Register extends StatefulWidget {
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
                                 try {
-                                  // تسجيل المستخدم
-                                  await context.read<AuthRegisterCubit>().signUp(
+                                   await context.read<AuthRegisterCubit>().signUp(
                                         email: EmailController.text,
                                         firstname: firstNameController.text,
                                         password: passwordController.text,
@@ -168,8 +167,7 @@ class Register extends StatefulWidget {
     );
   }
 
-  // Custom Input Widget
-  Widget _buildInput({
+   Widget _buildInput({
     required String label,
     required TextEditingController controller,
     required IconData icon,
