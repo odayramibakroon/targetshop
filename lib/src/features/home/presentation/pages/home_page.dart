@@ -8,14 +8,6 @@ import 'package:targetshop/src/features/home/presentation/widgets/shimmeruser.da
 import '../../cubit/categories_cubit.dart';
 import 'list_categores.dart';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:targetshop/generated/l10n.dart';
-import 'package:targetshop/src/features/home/domain/entities/categories_entity.dart';
-
-import '../../../users/cubit/user_cubit.dart';
-import '../../cubit/categories_cubit.dart';
-import 'list_categores.dart';
  
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -39,8 +31,7 @@ class HomePage extends StatelessWidget {
 
       body: CustomScrollView(
         slivers: [
-          // ================= USER =================
-          SliverToBoxAdapter(
+           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: BlocBuilder<UserCubit, UserState>(
@@ -86,8 +77,7 @@ class HomePage extends StatelessWidget {
             ),
           ),
 
-          // ================= SEARCH =================
-          SliverToBoxAdapter(
+           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: TextField(
@@ -104,8 +94,7 @@ class HomePage extends StatelessWidget {
             ),
           ),
 
-          // ================= CATEGORIES =================
-          const ListCategories(),
+           const ListCategories(),
         ],
       ),
     );
