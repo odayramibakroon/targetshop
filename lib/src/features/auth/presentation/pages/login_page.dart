@@ -79,16 +79,7 @@ class _LoginPageState extends State<LoginPage> {
                                   onPressed: () {            void login() async {
                                   try {
                                     
-                                      String _emailController = "bak@gmail.com";
-                                      String _passwordController = "123456";
-                                      await context.read<AuthCubit>().login(
-                                            email: _emailController,
-                                            password: _passwordController,
-                                          );
-                                      setState(() {
-                                        _emailController = "";
-                                        _passwordController = "";
-                                      });
+                                  
                                      
                                   } catch (e) {
                                     print("catch $e");
