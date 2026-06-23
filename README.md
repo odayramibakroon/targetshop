@@ -1,16 +1,107 @@
-# targetshop
+# Target Shop - Flutter E-Commerce App
 
-A new Flutter project.
+Target Shop is a modern Flutter e-commerce mobile application built with Clean Architecture and BLoC state management.
+The app supports Arabic and English, dark mode and light mode, Firebase integration, authentication, categories, products, favorites, cart, profile image, and app settings.
+
+## Features
+
+* Login screen
+* Register new account screen
+* Home screen with product categories
+* Categories loaded using StreamBuilder
+* Products loaded by selected category using StreamBuilder
+* Favorites page
+* Shopping cart page
+* Settings page
+* Profile image support
+* Arabic and English localization
+* Dark mode and light mode
+* System theme support
+* Clean Architecture structure
+* BLoC / Cubit state management
+* Firebase backend integration
+* Responsive Flutter UI
+
+## Tech Stack
+
+* Flutter
+* Dart
+* Firebase
+* Firestore
+* Firebase Authentication
+* BLoC / Cubit
+* Clean Architecture
+* StreamBuilder
+* Localization
+* Theme Management
+
+## Project Structure
+
+```text
+lib/
+├── core/
+├── features/
+├── config/
+├── generated/
+└── main.dart
+```
+
+## Screens
+
+* Login
+* Register
+* Home
+* Categories
+* Products
+* Favorites
+* Cart
+* Settings
+* Profile
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+### 1. Clone the repository
 
-A few resources to get you started if this is your first Flutter project:
+```bash
+git clone https://github.com/odayramibakroon/targetshop.git
+cd targetshop
+```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### 2. Install dependencies
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```bash
+flutter pub get
+```
+
+### 3. Run the app
+
+```bash
+flutter run
+```
+
+## Firebase Setup
+
+This project uses Firebase.
+Before running the app, make sure you configure Firebase for your own project.
+
+Recommended steps:
+
+```bash
+dart pub global activate flutterfire_cli
+flutterfire configure
+```
+
+Then run:
+
+```bash
+flutter pub get
+flutter run
+```
+
+## Keywords
+
+Flutter E-Commerce App, Flutter Shop App, Flutter Store App, Clean Architecture Flutter, Flutter BLoC, Firebase E-Commerce, Arabic Flutter App, Multilingual Flutter App, Dark Mode Flutter App, Shopping Cart Flutter, Favorites Flutter App.
+
+## Author
+
+Developed by [Oday Rami Bakroon](https://github.com/odayramibakroon)
