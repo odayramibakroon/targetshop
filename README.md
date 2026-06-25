@@ -1,3 +1,4 @@
+
 # Target Shop - Flutter E-Commerce App
 
 Target Shop is a modern Flutter e-commerce mobile application built with Clean Architecture and BLoC state management.
