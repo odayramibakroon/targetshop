@@ -1,5 +1,5 @@
 name: targetshop
-description: "A new Flutter project."
+description: "Flutter E-Commerce App with Firebase, Clean Architecture, BLoC, Arabic/English, Dark Mode, Categories, Products, Favorites and Cart."
 publish_to: 'none'
 version: 1.0.0+1
 environment:
@@ -41,6 +41,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/splash/
+    - assets/readme/
   fonts:
     - family: Roboto
       fonts:
