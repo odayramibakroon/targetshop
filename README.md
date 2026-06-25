@@ -1,34 +1,32 @@
-````md
 # 🛍️ Target Shop - Flutter E-Commerce App
 
 Target Shop is a modern Flutter e-commerce mobile application built with **Clean Architecture** and **BLoC** state management.
 
-The app supports **Arabic and English**, **Dark Mode**, **Light Mode**, Firebase integration, authentication, categories, products, favorites, shopping cart, profile image, and app settings.
+The app supports **Arabic & English**, **Dark Mode**, **Light Mode**, Firebase Authentication, Cloud Firestore, Categories, Products, Favorites, Shopping Cart, Profile Management, and Responsive UI.
 
 ---
 
-# ✨ Features
+## ✨ Features
 
-- Login screen
-- Register new account screen
-- Home screen with product categories
-- Categories loaded using StreamBuilder
-- Products loaded by selected category using StreamBuilder
-- Favorites page
-- Shopping cart page
-- Settings page
-- Profile image support
-- Arabic & English localization
-- Dark mode & Light mode
-- System theme support
-- Clean Architecture
-- BLoC / Cubit state management
-- Firebase backend integration
-- Responsive Flutter UI
+- 🔐 Login & Register
+- 🏠 Home Screen
+- 📂 Product Categories
+- 🛍️ Products by Category
+- ❤️ Favorites
+- 🛒 Shopping Cart
+- 👤 Profile Management
+- ⚙️ Settings
+- 🌙 Dark & Light Theme
+- 🌍 Arabic & English Localization
+- 🔥 Firebase Authentication
+- ☁️ Cloud Firestore
+- 🧩 Clean Architecture
+- 🚀 BLoC / Cubit State Management
+- 📱 Responsive Design
 
 ---
 
-# 🛠 Tech Stack
+## 🛠 Tech Stack
 
 - Flutter
 - Dart
@@ -39,11 +37,11 @@ The app supports **Arabic and English**, **Dark Mode**, **Light Mode**, Firebase
 - Clean Architecture
 - StreamBuilder
 - Localization
-- Theme Management
+- Material Design
 
 ---
 
-# 📂 Project Structure
+## 📂 Project Structure
 
 ```text
 lib/
@@ -56,64 +54,50 @@ lib/
 
 ---
 
-# 📱 Screens
-
-- Login
-- Register
-- Home
-- Categories
-- Products
-- Favorites
-- Cart
-- Settings
-- Profile
-
----
-
-# 📸 Screenshots
+## 📸 Screenshots
 
 <p align="center">
-  <img src="assets/readme/screen1.png" width="200"/>
-  <img src="assets/readme/screen2.png" width="200"/>
-  <img src="assets/readme/screen3.png" width="200"/>
+  <img src="assets/readme/screen1.jpg" width="220"/>
+  <img src="assets/readme/screen2.jpg" width="220"/>
+  <img src="assets/readme/screen3.jpg" width="220"/>
 </p>
 
 <p align="center">
-  <img src="assets/readme/screen4.png" width="200"/>
-  <img src="assets/readme/screen5.png" width="200"/>
-  <img src="assets/readme/screen6.png" width="200"/>
+  <img src="assets/readme/screen4.jpg" width="220"/>
+  <img src="assets/readme/screen5.jpg" width="220"/>
+  <img src="assets/readme/screen6.jpg" width="220"/>
 </p>
 
 <p align="center">
-  <img src="assets/readme/screen7.png" width="200"/>
-  <img src="assets/readme/screen8.png" width="200"/>
-  <img src="assets/readme/screen9.png" width="200"/>
+  <img src="assets/readme/screen7.jpg" width="220"/>
+  <img src="assets/readme/screen8.jpg" width="220"/>
+  <img src="assets/readme/screen9.jpg" width="220"/>
 </p>
 
 <p align="center">
-  <img src="assets/readme/screen10.png" width="200"/>
-  <img src="assets/readme/screen11.png" width="200"/>
-  <img src="assets/readme/screen12.png" width="200"/>
+  <img src="assets/readme/screen10.jpg" width="220"/>
+  <img src="assets/readme/screen11.jpg" width="220"/>
+  <img src="assets/readme/screen12.jpg" width="220"/>
 </p>
 
 ---
 
-# 🚀 Getting Started
+## 🚀 Getting Started
 
-## 1. Clone the repository
+### Clone the repository
 
 ```bash
 git clone https://github.com/odayramibakroon/targetshop.git
 cd targetshop
 ```
 
-## 2. Install dependencies
+### Install dependencies
 
 ```bash
 flutter pub get
 ```
 
-## 3. Run the app
+### Run the application
 
 ```bash
 flutter run
@@ -121,11 +105,9 @@ flutter run
 
 ---
 
-# 🔥 Firebase Setup
+## 🔥 Firebase Setup
 
-This project uses Firebase.
-
-Before running the app, configure Firebase for your own project.
+Configure your own Firebase project before running the application.
 
 ```bash
 dart pub global activate flutterfire_cli
@@ -141,15 +123,14 @@ flutter run
 
 ---
 
-# 🔑 Keywords
+## 🔑 Keywords
 
-Flutter E-Commerce App, Flutter Shopping App, Flutter Store App, Firebase Flutter, Firestore, Flutter Clean Architecture, Flutter BLoC, Cubit, Flutter UI, Arabic Flutter App, English Flutter App, Dark Mode Flutter, Responsive Flutter, Shopping Cart, Favorites, Authentication.
+Flutter, Flutter E-Commerce, Firebase, Firestore, Flutter Shop, Shopping App, Clean Architecture, BLoC, Cubit, Arabic, English, Dark Mode, Responsive UI.
 
 ---
 
-# 👨‍💻 Author
+## 👨‍💻 Author
 
-Developed by **Oday Rami Bakroon**
+**Oday Rami Bakroon**
 
 GitHub: https://github.com/odayramibakroon
-````
